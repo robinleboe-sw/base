@@ -3,10 +3,18 @@ import { Navbar } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { PublicNavigation } from './public-navigation';
 import { AuthenticatedNavigation } from './authenticated-navigation';
+import { AdminNavigation } from './admin-navigation';
+import { Roles } from 'meteor/alanning:roles';
+
 
 export class AppNavigation extends React.Component {
   renderNavigation(hasUser) {
-    return hasUser ? <AuthenticatedNavigation /> : <PublicNavigation />;
+    console.log(hasUser)
+    if(!!hasUser && Roles.userIsInRole(hasUser,['admin'])) {
+      return <AdminNavigation />
+    } else {
+      return hasUser ? <AuthenticatedNavigation /> : <PublicNavigation />;
+    }
   }
 
   render() {

@@ -20,6 +20,18 @@ const requireAuth = (nextState, replace) => {
   }
 };
 
+const requireAdminAuth = (nextState, replace) => {
+  console.log("yeah baby!")
+  // let loggedInUser = Meteor.user();
+  // if (!Meteor.loggingIn() && !Meteor.userId() && !Roles.userIsInRole(loggedInUser, 'admin')) {
+  //   console.log('not admin');
+  //   replace({
+  //     pathname: '/login',
+  //     state: { nextPathname: nextState.location.pathname },
+  //   });
+  // }
+};
+
 Meteor.startup(() => {
   render(
     <Router history={ browserHistory }>
@@ -30,6 +42,9 @@ Meteor.startup(() => {
         <Route name="recover-password" path="/recover-password" component={ RecoverPassword } />
         <Route name="reset-password" path="/reset-password/:token" component={ ResetPassword } />
         <Route name="signup" path="/signup" component={ Signup } />
+        {/*<Route name="admin" path="/admin" component={ Admin } onEnter={ requireAdminAuth } >*/}
+          {/*<Route name="main" path="admin" component={ Main } />*/}
+        {/*</Route>*/}
         <Route path="*" component={ NotFound } />
       </Route>
     </Router>,
