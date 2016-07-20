@@ -1,0 +1,147 @@
+/*
+ *
+ *   SKIN SW1 - Sessionwire Studio - Responsive Admin Theme
+ *   NAME - Sessionwire Default
+ *
+*/
+
+// Main colors
+$skin-sw1-color: #0e9aef;
+$skin-sw1-nav-bg: #333;
+$skin-sw1-a-color: #9ea6b9;
+$skin-sw1-page-bg: #f4f6fa;
+
+// Custom style
+.skin-sw1 .navbar-brand {
+  background-color: #333;
+}
+.skin-sw1 .navbar-brand > img {
+  float: left;
+  padding-top: 8px;
+  padding-right: 10px;
+}
+
+.skin-sw1 .minimalize-styl-2 {
+  margin: 14px 5px 5px 30px;
+}
+
+.skin-sw1 .navbar-top-links li:last-child {
+  margin-right: 30px;
+}
+
+.skin-sw1.fixed-nav .minimalize-styl-2 {
+  margin: 14px 5px 5px 15px;
+}
+
+.skin-sw1 .spin-icon {
+  background: $skin-sw1-color !important;
+}
+
+.skin-sw1 .nav-header {
+  background: $skin-sw1-color;
+  background: url('patterns/header-profile-skin-sw1.png');
+}
+
+.skin-sw1.mini-navbar .nav-second-level {
+  background: $skin-sw1-nav-bg;
+}
+
+.skin-sw1 .breadcrumb {
+  background: transparent;
+}
+
+.skin-sw1 .page-heading {
+  border: none;
+}
+
+.skin-sw1 .nav > li.active {
+  background: darken($skin-sw1-nav-bg, 2%);
+}
+
+.skin-sw1 .nav > li > a {
+  color: $skin-sw1-a-color;
+}
+
+.skin-sw1 .nav > li.active > a {
+  color: #fff;
+  background: darken($skin-sw1-nav-bg, 2%);
+}
+
+.skin-sw1 .navbar-minimalize {
+  background: $skin-sw1-color;
+  border-color: $skin-sw1-color;
+}
+
+body.skin-sw1 {
+  background: $skin-sw1-nav-bg;
+}
+
+.skin-sw1 .navbar-static-top {
+  background: #ffffff;
+}
+
+.skin-sw1 .dashboard-header {
+  background: transparent;
+  border-bottom: none !important;
+  border-top: none;
+  padding: 20px 30px 10px 30px;
+}
+
+.fixed-nav.skin-sw1 .navbar-fixed-top {
+  background: #fff;
+}
+
+.skin-sw1 .wrapper-content {
+  padding: 30px 15px;
+}
+
+.skin-sw1 #page-wrapper {
+  background: $skin-sw1-page-bg;
+}
+
+.skin-sw1 .ibox-title, .skin-sw1 .ibox-content {
+  border-width: 1px;
+}
+
+.skin-sw1 .ibox-content:last-child {
+  border-style: solid solid solid solid;
+}
+
+.skin-sw1 .nav > li.active {
+  border: none;
+}
+
+.skin-sw1 .nav-header {
+  padding: 35px 25px 25px 25px;
+}
+
+.skin-sw1 .nav-header a.dropdown-toggle {
+  color: #fff;
+  margin-top: 10px;
+}
+
+.skin-sw1 .nav-header a.dropdown-toggle .text-muted {
+  color: #fff;
+  opacity: 0.8;
+}
+
+.skin-sw1 .profile-element {
+  text-align: center;
+}
+
+.skin-sw1 .img-circle {
+  border-radius: 5px;
+}
+
+.skin-sw1 .navbar-default .nav > li > a:hover, .skin-sw1 .navbar-default .nav > li > a:focus {
+  background: darken($skin-sw1-nav-bg, 2%);
+  color: #fff;
+}
+
+.skin-sw1 .nav.nav-tabs > li.active > a {
+  color: #555;
+}
+
+.skin-sw1 .nav.nav-tabs > li.active {
+  background: transparent;
+}

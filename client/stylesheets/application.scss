@@ -1,3 +1,4 @@
+@import "{}/node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "base/extends";
 @import "base/animations";
 @import "base/forms";
@@ -7,3 +8,73 @@
 @import "module/signup";
 
 @import "state/navbar";
+
+/*
+ *
+ *   INSPINIA - Responsive Admin Theme
+ *   version 2.4
+ *
+*/
+// Google Fonts
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+// Variables, Mixins
+@import "admin/variables";
+@import "admin/mixins";
+
+// INSPINIA Theme Elements
+@import "admin/typography";
+@import "admin/navigation";
+@import "admin/top_navigation";
+@import "admin/buttons";
+@import "admin/badgets_labels";
+@import "admin/elements";
+@import "admin/sidebar";
+@import "admin/base";
+@import "admin/pages";
+@import "admin/chat";
+@import "admin/metismenu";
+@import "admin/spinners";
+
+// Landing page styles
+@import "admin/landing";
+
+// RTL Support
+@import "admin/rtl";
+
+// For demo only - config box style
+//@import "admin/theme-config";
+
+// INSPINIA Skins
+@import "admin/sw-skins";
+//@import "admin/md-skin";
+
+// Media query style
+@import "admin/media";
+
+// Custom style
+// Your custom style to override base style
+@import "admin/custom";
+
+// Clear layout on print mode
+@media print {
+  nav.navbar-static-side {
+    display: none;
+  }
+
+  #page-wrapper {
+    margin: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
