@@ -1,0 +1,9 @@
+{
+  "galaxy.meteor.com": {
+    "env": {
+      "ROOT_URL": "http://sessionwire.meteorapp.com",
+      "MONGO_URL": "mongodb://sessionwire-meteor:8907iopujklh,./mSWM!@ds025520-a0.mlab.com:25520,ds025520-a1.mlab.com:25520/sessionwire-mongo?replicaSet=rs-ds025520",
+      "MONGO_OPLOG_URL": "mongodb://oplog-reader:8907iopujklh,./mMLOL!@ds025520-a0.mlab.com:25520/local?authSource=admin"
+    }
+  }
+}
