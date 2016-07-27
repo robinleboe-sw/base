@@ -1,18 +1,18 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { insertMesh } from './methods';
+import { setMeshIP } from './methods';
 
 const ips = [
-  { ip: '192.168.0.1', port: '3001' },
-  { ip: '192.168.0.2', port: '3002' },
-  { ip: '192.168.0.3', port: '3003' }
+  { ip: '192.168.0.1', port: '3001', userId: Meteor.userId() },
+  { ip: '192.168.0.2', port: '3002', userId: Meteor.userId() },
+  { ip: '192.168.0.3', port: '3003', userId: Meteor.userId() }
 ];
 
 const getRandomIP = () => ips[Math.floor(Math.random() * ips.length)];
 
 // const handleAddIP = () => {
 //   const ip = getRandomIP();
-//   insertMesh.call(ip, (error) => {
+//   setMeshIP.call(ip, (error) => {
 //     if (error) {
 //       alert(error.reason);
 //     }
@@ -22,7 +22,7 @@ const getRandomIP = () => ips[Math.floor(Math.random() * ips.length)];
 const handleAddIP = (event) => {
   const ip = getRandomIP();
 
-  insertMesh.call({
+  setMeshIP.call({
     ip,
   }, (error) => {
     if (error) {

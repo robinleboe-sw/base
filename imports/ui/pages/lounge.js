@@ -5,6 +5,8 @@ import { HelpModal } from '/imports/ui/components/avatar/help-modal'
 import { SettingsModal } from '/imports/ui/components/avatar/settings-modal'
 import { ConnectModal } from '/imports/ui/components/avatar/connect-modal'
 import { AddIP } from '/imports/api/mesh/addIP'
+import { GetIP } from '/imports/api/mesh/getIP'
+
 import { Mesh } from '../../api/mesh/mesh';
 
 const subscription = Meteor.subscribe('mesh');
@@ -67,7 +69,6 @@ export class Lounge extends React.Component {
           <ConnectModal show={this.state.connectShow} onHide={this.connectClose} />
 
         </ButtonToolbar>
-        <AddIP/>
       </div>
     )
   }
