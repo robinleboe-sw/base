@@ -18,9 +18,9 @@ export const AuthenticatedNavigation = () => (
       <IndexLinkContainer to="/">
         <NavItem eventKey={ 1 } href="/">Studio</NavItem>
       </IndexLinkContainer>
-      <LinkContainer to="/documents">
-        <NavItem eventKey={ 2 } href="/documents">Sessions</NavItem>
-      </LinkContainer>
+      {/*<LinkContainer to="/documents">*/}
+        {/*<NavItem eventKey={ 2 } href="/documents">Sessions</NavItem>*/}
+      {/*</LinkContainer>*/}
       <LinkContainer to="/lounge">
         <NavItem eventKey={ 3 } href="/lounge">Lounge</NavItem>
       </LinkContainer>
