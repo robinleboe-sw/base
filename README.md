@@ -1,10 +1,9 @@
-# The Meteor Chef - Base
-A starting point for Meteor apps.
+# Sessionwire Studio Base Application
 
 <table>
   <tbody>
     <tr>
-      <th>Base Version</th>
+      <th>TMC Base Version</th>
       <td>v4.6.0</td>
     </tr>
     <tr>
@@ -14,4 +13,4 @@ A starting point for Meteor apps.
   </tbody>
 </table>
 
-[Read the Documentation](http://themeteorchef.com/base)
+[Read the TMC Base Documentation](http://themeteorchef.com/base)
