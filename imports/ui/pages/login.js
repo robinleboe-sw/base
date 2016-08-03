@@ -15,65 +15,42 @@ export class Login extends React.Component {
   render() {
     return (
 
-    <div className="loginColumns animated fadeInDown">
-      <div className="row">
+      <div className="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+          <div>
 
-        <div className="col-md-6">
-          <h2 className="font-bold">Welcome to Sessionwire Studio</h2>
+            <h1 className="logo-name"><img src="/app/sessionwire-login-logo.png" alt="Sessionwire Studio logo"/></h1>
 
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et orci mollis nibh placerat venenatis. Proin sollicitudin ac dui et accumsan. Sed vel justo odio.
-          </p>
-
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-          </p>
-
-          <p>
-            When an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          </p>
-
-        </div>
-        <div className="col-md-6">
-          <div className="ibox-content">
-            <form ref="login" className="login" onSubmit={ this.handleSubmit }>
-              <FormGroup>
-                <FormControl
-                  type="email"
-                  ref="emailAddress"
-                  name="emailAddress"
-                  placeholder="Email Address"
-                />
-              </FormGroup>
-              <FormGroup>
-                <FormControl
-                  type="password"
-                  ref="password"
-                  name="password"
-                  placeholder="Password"
-                />
-                <ControlLabel>
-                  <Link className="pull-right" to="/recover-password">Forgot Password?</Link>
-                </ControlLabel>
-              </FormGroup>
-              <Button type="submit" bsStyle="btn btn-primary block full-width m-b">Login</Button>
-            </form>
-            <p className="m-t">
-              <small>Sessionwire Studio - Live recording on the Web © 2016</small>
-            </p>
           </div>
+          <hr/>
+          <p>Login to experience the creative power of Live Recording on the Web™.
+          </p>
+          <form ref="login" className="login m-t" onSubmit={ this.handleSubmit }>
+            <FormGroup>
+              <FormControl
+                type="email"
+                ref="emailAddress"
+                name="emailAddress"
+                placeholder="Email Address"
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormControl
+                type="password"
+                ref="password"
+                name="password"
+                placeholder="Password"
+                autoComplete="new-password"
+              />
+            </FormGroup>
+            <Button type="submit" bsStyle="primary" className="block full-width m-b">Login</Button>
+            <p><Link className="" to="/recover-password"><small>Forgot Password?</small></Link></p>
+            <p className="text-muted text-center"><small>Do not have an account?</small></p>
+            <a className="btn btn-sm btn-white btn-block" href="register.html">Sign Up Now!</a>
+          </form>
+          <p className="m-t"> <small>Sessionwire Studio - Live Recording on the Web © 2016</small> </p>
         </div>
       </div>
-      <hr/>
-        <div className="row">
-          <div className="col-md-6">
-            Copyright Sessionwire Communications Inc.
-          </div>
-          <div className="col-md-6 text-right">
-            <small>© 2013-2016</small>
-          </div>
-        </div>
-    </div>
-  )
+    )
   }
 }
