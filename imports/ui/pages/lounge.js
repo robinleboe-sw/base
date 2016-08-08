@@ -6,7 +6,6 @@ import SettingsList from '/imports/ui/containers/settings-data'
 import { ConnectModal } from '/imports/ui/components/avatar/connect-modal'
 import { LocalVideo } from '/imports/ui/components/avatar/local-video'
 import { RemoteVideo } from '/imports/ui/components/avatar/remote-video'
-import '/imports/modules/js/vumetr'
 
 import '/imports/modules/js/jquery-ui.min.js'
 import '/imports/modules/js/socket.io.min.js'
@@ -16,10 +15,8 @@ import '/imports/modules/js/easyrtc_ft.js'
 import '/imports/modules/js/vumetr.js'
 import '/imports/modules/js/sw_utils.js'
 import '/imports/modules/js/sw_filesharing.js'
-import '/imports/modules/js/sw_meters.js'
 import '/imports/modules/js/sw_audio_video.js'
 import '/imports/modules/js/sw_avatarstream.js'
-//import '/imports/modules/js/sw_meshstream.js'
 import '/imports/modules/js/sw_talkback.js'
 import '/imports/modules/js/sw_datachannel.js'
 import '/imports/modules/js/sw_midi.js'
@@ -115,7 +112,7 @@ export class Lounge extends React.Component {
               </row>
               <row>
                 <p className="text-right">
-                  <Button onClick={this.handleAlertDismiss}>OK! Got it!</Button>
+                  <Button onClick={this.handleAlertDismiss}>Got it!</Button>
                 </p>
               </row>
             </Alert> : null}

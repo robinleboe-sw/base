@@ -30,11 +30,11 @@ function isEnabled(domId) {
 // audioVideoInit()
 //
 // DON'T NEED THIS state set in connect-modal.js
-// function audioVideoInit() {
-//   enable("connectButton");
-//   disable("disconnectButton");
-//
-// }
+function audioVideoInit() {
+  // enable("connectButton");
+  // disable("disconnectButton");
+
+}
 
 ///////////////
 // Log on/off

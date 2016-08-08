@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Row } from 'react-bootstrap';
+import '/imports/modules/js/sw_meters.js'
 
 const localVideoStyle = {
   display: "block"

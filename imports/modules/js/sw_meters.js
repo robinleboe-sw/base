@@ -26,12 +26,14 @@ export function initMeters() {
   $('#divLocalVU').vumetr('power', false);
   $("#divLocalVU").hide();
 
+  const tempConnectButton = true; // is connect status true?
+
   $("#divLocalVid").click(function(){
 //    if ( !havelocalVideo() || ($("#localVideo").is(":visible") == true ) ) {
     if ( ($("#localVideo").is(":visible") == true ) ) {
       $("#localVideo").hide();
       // power on only if connected
-      if( document.getElementById('connectButton').disabled ) {
+      if( tempConnectButton ) {
         $('#divLocalVU').vumetr('power', true);
       }
       $("#divLocalVU").show();
@@ -50,6 +52,9 @@ export function initMeters() {
   $('#divRemoteVU').vumetr('power', false);
   $("#divRemoteVU").hide();
 
+  const tempHangupButton = false; // document.getElementById('hangupButton').disabled == false
+
+
   $("#divRemoteVid").click(function(){
     if ($("#divRemoteVU").is(":visible") == false) {
       $("#remoteVideo").hide();
@@ -57,7 +62,7 @@ export function initMeters() {
       $("#divRemoteVU").show();
     }
     else { // FIXME remoteVideo .srcObject undefined//  else if( localLoggedIn()  ) {  //
-      if( document.getElementById('hangupButton').disabled == false) {  // only show video if connected
+      if( tempHangupButton ) {  // only show video if connected
         $('#divRemoteVU').vumetr('power', false);
         $("#divRemoteVU").hide();
         $("#remoteVideo").show();
@@ -87,7 +92,7 @@ function haveRemoteVideo() {
 }
 
 function localLoggedIn() {
-  return( !!(document.getElementById('connectButton').disabled == "disabled") );
+  return( !!(tempConnectButton == "disabled") );
 }
 
 
@@ -110,7 +115,7 @@ function localLoggedIn() {
 //
 // function showLocalMeter() {
 //   // show meter off if not logged in, on if logged in
-//   if( document.getElementById('connectButton').disabled == true) {
+//   if( tempConnectButton == true) {
 //     $("#divLocalVU").vumetr('power', true);
 //   } else {
 //     $("#divLocalVU").vumetr('power', false);
@@ -124,8 +129,10 @@ function localLoggedIn() {
 // set meter power on if we're connected to another user, off otherwise
 //
 function setMeterOnOff(divID) {
+  const tempHangupButton = false; // document.getElementById('hangupButton').disabled == false
+
   // show meter off if not connected, on if connected
-  if( document.getElementById('hangupButton').disabled == false) {
+  if( tempHangupButton ) {
     $('#' + divID).vumetr('power', true);
   } else {
     $('#' + divID).vumetr('power', false);
@@ -192,8 +199,9 @@ function statsCallback(id, stats) {
  // console.log("IN: " + inTmp + " OUT: " + outTmp);
 
   /////
+  const tempHangupButton = false; // document.getElementById('hangupButton').disabled == false
 
-  if( document.getElementById('hangupButton').disabled == false) {  // if call is active
+  if( tempHangupButton ) {  // if call is active
     $('#divLocalVU').vumetr('input', inLevel/32768);
     $('#divRemoteVU').vumetr('input', outLevel/32768);
   } else {
