@@ -2,9 +2,9 @@
  *  sw_meters.js
  *  Rick Beaton
  *  June 2016
- * 
+ *
  *  Meters Interfaces. construct and control functions for meters, wrapper for vumetr.
- * 
+ *
  *  NOTES:
  * VU
  * Possible modes for VU:
@@ -19,8 +19,8 @@ Re-do VU meters to call callback from getAnimationFrame which supplies current v
 // initMeters()
 // invoked in onload()
 //
-function initMeters() {
-  
+export function initMeters() {
+
   $('#divLocalVU').vumetr();
   $('#divLocalVU').vumetr('lightMode','night');
   $('#divLocalVU').vumetr('power', false);
@@ -44,12 +44,12 @@ function initMeters() {
       $("#localVideo").show();
     }
   });
-  
+
   $('#divRemoteVU').vumetr();
   $('#divRemoteVU').vumetr('lightMode','night');
   $('#divRemoteVU').vumetr('power', false);
   $("#divRemoteVU").hide();
-  
+
   $("#divRemoteVid").click(function(){
     if ($("#divRemoteVU").is(":visible") == false) {
       $("#remoteVideo").hide();
@@ -64,10 +64,10 @@ function initMeters() {
       }
     }
   });
- 
+
   // Show meters by default
-  showLocalMeter();
-  showRemoteMeter();
+  // showLocalMeter();
+  // showRemoteMeter();
    /***/
 }
 
@@ -75,7 +75,7 @@ function initMeters() {
 //
 //
 function havelocalVideo() {
-  var vid = document.getElementById('localVideo').src; 
+  var vid = document.getElementById('localVideo').src;
   console.log('VIDEO ' + elmt + ': ' + vid)
   return(!!vid);
 }
@@ -93,31 +93,31 @@ function localLoggedIn() {
 
 //
 //
-function showRemoteMeter() {
-  // show meter off if not connected to other user, on if connected
-  if( document.getElementById('hangupButton').disabled == false) {
-    $("#divRemoteVU").vumetr('power', true);
-  } else {
-    $("#divRemoteVU").vumetr('power', false);
-  }
-  
-  $("#remoteVideo").hide();
-  $("#divRemoteVU").show();
-}
+// function showRemoteMeter() {
+//   // show meter off if not connected to other user, on if connected
+//   if( document.getElementById('hangupButton').disabled == false) {
+//     $("#divRemoteVU").vumetr('power', true);
+//   } else {
+//     $("#divRemoteVU").vumetr('power', false);
+//   }
+//
+//   $("#remoteVideo").hide();
+//   $("#divRemoteVU").show();
+// }
 
 
 //
 //
-function showLocalMeter() {
-  // show meter off if not logged in, on if logged in
-  if( document.getElementById('connectButton').disabled == true) {
-    $("#divLocalVU").vumetr('power', true);
-  } else {
-    $("#divLocalVU").vumetr('power', false);
-  }
-  $("#localVideo").hide();
-  $("#divLocalVU").show();
-}
+// function showLocalMeter() {
+//   // show meter off if not logged in, on if logged in
+//   if( document.getElementById('connectButton').disabled == true) {
+//     $("#divLocalVU").vumetr('power', true);
+//   } else {
+//     $("#divLocalVU").vumetr('power', false);
+//   }
+//   $("#localVideo").hide();
+//   $("#divLocalVU").show();
+// }
 
 
 // setMeterOnOff()
@@ -163,7 +163,7 @@ function swSelStreamMonitor() {
     document.getElementById('selectStreamMonitorButton').firstChild.data = 'Meter 0';
     monitor_stream = 0;
   }
-    
+
 }
 function statsCallback(id, stats) {
   //  console.log(stats);
@@ -180,7 +180,7 @@ function statsCallback(id, stats) {
   var outLevel;
   var inTmp = stats.audioInputLevel;
   var outTmp = stats.audioOutputLevel;
-  
+
   if(Array.isArray(inTmp)) {
     inLevel = inTmp[monitor_stream];
     outLevel = outTmp[monitor_stream];
@@ -190,9 +190,9 @@ function statsCallback(id, stats) {
     outLevel = outTmp;
   }
  // console.log("IN: " + inTmp + " OUT: " + outTmp);
-  
+
   /////
-  
+
   if( document.getElementById('hangupButton').disabled == false) {  // if call is active
     $('#divLocalVU').vumetr('input', inLevel/32768);
     $('#divRemoteVU').vumetr('input', outLevel/32768);
@@ -207,7 +207,7 @@ function statsCallback(id, stats) {
 function swGetStats() {
   // stats only come in from remote end via RTP
   easyrtc.getChromePeerStatistics(remoteEasyrtcid, statsCallback, chromeAudioStatsFilt);
-  // NOTE: Easyrtc 1.0.17 changed to: easyrtc.getPeerStatistics. 'experimental' 
+  // NOTE: Easyrtc 1.0.17 changed to: easyrtc.getPeerStatistics. 'experimental'
   //easyrtc.getChromePeerStatistics(localEasyrtcid, statsCallback);
 }
 

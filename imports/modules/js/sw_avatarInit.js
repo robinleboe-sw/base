@@ -2,9 +2,9 @@
  *  sw_avatarInit.js
  *  Rick Beaton
  *  April 2016
- * 
+ *
  *  Initialization for HTML GUI. Constructs HTML, initializes all other modules.
- * 
+ *
  *  NOTES:
  *
  *  TODO:
@@ -16,19 +16,22 @@
 //var mesh = '';
 
 // Invoked after everything loaded
+import { swLoadSettings } from '/imports/modules/js/sw_settings.js'
+//import { audioVideoInit } from '/imports/modules/js/sw_audio_video.js'
+import { initMeters } from '/imports/modules/js/sw_meters.js'
+
 window.onload = function() {
-  
+
   // Set socket signalling server
 //  var signalingOptions = {}; //{'connect timeout': 10000, 'force new connection': true };
 //  easyrtc.setSocketUrl("https://studio.sessionwire.com:8888", signalingOptions);
 //  easyrtc.setSocketUrl("https://studio.sessionwire.com:8080");
 //  easyrtc.setSocketUrl("https://159.203.210.61:8080");
 
-  
   swLoadSettings();
-  audioVideoInit();
+  //audioVideoInit();
   initMeters();
-  
+
   // display username from settings instead of rtcids
   var _localUserName = document.getElementById('userName').value;
   easyrtc.setUsername(_localUserName);

@@ -11,7 +11,6 @@ export class ConnectModal extends React.Component {
     }
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
-
   }
 
   connect(e) {
@@ -24,14 +23,24 @@ export class ConnectModal extends React.Component {
 
   initCall(e) {
     console.log(this.state.connected);
+    $("#divLocalVU").vumetr('power', true);
+    $("#divRemoteVU").vumetr('power', true);
+
+    $("#localVideo").hide();
+    $("#divLocalVU").show();
+    $("#remoteVideo").hide();
+    $("#divRemoteVU").show();
   }
 
   endCall(e) {
     console.log(this.state.connected);
+    $("#divLocalVU").vumetr('power', false);
+    $("#divRemoteVU").vumetr('power', false);
+
   }
 
   renderConnectionButtons(connected) {
-    return connected ? <Button onClick={this.disconnect}>Disconnect</Button> : <Button onClick={this.connect} >Connect</Button>;
+    return connected ? <Button onClick={this.disconnect} id="disconnectButton" disabled={!this.state.connected}>Disconnect</Button> : <Button onClick={this.connect} id="connectButton" disabled={this.state.connected}>Connect</Button>;
   }
 
   render() {
