@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export const Invitations = new Mongo.Collection('invitations');
+export const Invitations = new Mongo.Collection('Invitations');
 
 Invitations.allow({
   insert: () => false,

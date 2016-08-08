@@ -1,6 +1,10 @@
+/**
+ * Login page for Sessionwire Studio
+ */
+
 import React from 'react';
 import { Link } from 'react-router';
-import { Row, Col, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { handleLogin } from '../../modules/login';
 
 export class Login extends React.Component {
@@ -46,7 +50,9 @@ export class Login extends React.Component {
             <Button type="submit" bsStyle="primary" className="block full-width m-b">Login</Button>
             <p><Link className="" to="/recover-password"><small>Forgot Password?</small></Link></p>
             <p className="text-muted text-center"><small>Do not have an account?</small></p>
-            <a className="btn btn-sm btn-white btn-block" href="register.html">Sign Up Now!</a>
+            <Link to="/signup">
+              <button className="btn btn-sm btn-white btn-block" href="/signup">Sign Up Now!</button>
+            </Link>
           </form>
           <p className="m-t"> <small>Sessionwire Studio - Live Recording on the Web © 2016</small> </p>
         </div>

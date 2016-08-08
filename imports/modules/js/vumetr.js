@@ -17,7 +17,7 @@
  * - basic: scale, marks, needle
  */
 function VU() {
-  
+
   var element;
   /*
    var W=400 //400;
@@ -29,41 +29,41 @@ function VU() {
   var H=225 //300;
   var ox = 150;
   var oy = 175;
-  
-  
+
+
   var aStart = 1.25*Math.PI;
   var aEnd = 1.75*Math.PI;
   var baseRadius = 125; //200;
-  
+
   var transientSensitivity = 2.5;
   var riseTime = 300; // == fallTime
   var needleSpeed = 0.7 / riseTime * 1000;  // 0.7 = 0dB; it must take 300ms to reach 0db from 0
-  
+
   var DYNRANGE = 6.02*8+1.76; // 8bit dyn.range ~= 50
   var dbreference = -3;	// dB value of 0 VU
   var dbrange = 20-dbreference;
   var thickMarkPositions = [-20,-10,-7,-5,-3,0,1,2,3];
   var thinMarkPositions = [-9,-8,-6,-4,-2,-1];
-  
+
   var indicatorValue = -.1; // 0 .. 1
   var animLastTime = 0;
-  
+
   var currentAnim;
-  
+
   var powered = false;
   var showfps = false;
-  
+
   var labelText = "Sessionwire";  // "VUmetr digital audio";
-  
+
   var backgroundImage;
-  
+
   var fps = '';
   var frames = 0;
   var frameTime = 0;
-  
+
   // audio api analysis connection
   var analyser;
-  
+
   var ColorDefs = [
     // 0: light off
     {
@@ -137,7 +137,7 @@ function VU() {
 				return grad;
     }
     },
-    
+
     // 2: internal light on
     {
   backgroundFill: function(ctx) {
@@ -174,17 +174,17 @@ function VU() {
     }
     }
     ];
-  
+
   var selectedLight = 0;
   var colorScheme = ColorDefs[selectedLight];
-  
+
   function create() {
     element = document.createElement("canvas");
     element.setAttribute("width", W);
     element.setAttribute("height",H);
-    
+
     var ctx = element.getContext('2d');
-    
+
     for (var i=0; i<ColorDefs.length; i++) {
       var scheme = ColorDefs[i];
       for (var prop in scheme) {
@@ -193,15 +193,15 @@ function VU() {
       }
     }
   }
-  
+
   function angleOf(percent) {
     return aStart + (aEnd-aStart) * percent;
   }
-  
+
   function percentOf(angle) {
     return ( (angle%Math.PI)-(aStart%Math.PI) ) / ( (aEnd%Math.PI)-(aStart%Math.PI) );
   }
-  
+
   // returns 0..1
   function db2vu(decibel) {
     if (decibel < -20) return 0;
@@ -214,11 +214,11 @@ function VU() {
     //	var normalized = (2+Math.sin(normDB*Math.PI/2)-Math.log(scaled))/2;
     return normalized;
   }
-  
+
   function decibel(sampleValue) {
     return 20*Math.log(sampleValue)/2.302585092994046;
   }
-  
+
   function renderBackground(ctx) {
     drawBackground(ctx);
     drawScaleBaseline(ctx);
@@ -226,11 +226,11 @@ function VU() {
     drawScaleNumbers(ctx);
     return element.toDataURL();
   }
-  
+
   function requestUpdateBackground() {
     backgroundImage = null;
   }
-  
+
   var gconsole = {
   color: 'blue',
   lines: [],
@@ -247,11 +247,11 @@ function VU() {
     this.lines = [];
   }
   };
-  
+
   function draw() {
     var ctx = element.getContext('2d');
     ctx.clearRect(0, 0, W, H);
-    
+
     if (!backgroundImage) {
       backgroundImage = new Image();
       backgroundImage.src = renderBackground(ctx);
@@ -260,20 +260,20 @@ function VU() {
     drawGlass(ctx);
     drawBottom(ctx);
     drawLightMultiplier(ctx);
-    
+
     if (showfps) {
       gconsole.log(fps);
     }
-    
+
     gconsole.draw(ctx);
   }
-  
+
   function drawBackground(ctx) {
     ctx.beginPath();
     ctx.rect(0,0,W,H);
     ctx.fillStyle = colorScheme.backgroundFill;
     ctx.fill();
-    
+
     // text
     ctx.textAlign = 'start';
     ctx.font = '12pt Helvetica'; //'12pt CaviarDreamsBold';
@@ -282,7 +282,7 @@ function VU() {
     ctx.font = '10pt Lucida';
     ctx.fillStyle = 'black';
     ctx.fillText('0 VU = +4 dBu', W/4*3-20,H/4*3);
-    
+
     ctx.font = '24pt Helvetica';
     ctx.save();
     ctx.fillStyle = 'rgb(40,40,40)';
@@ -292,7 +292,7 @@ function VU() {
     ctx.fillText('VU', 0,0);
     ctx.restore();
   }
-  
+
   function drawScaleBaseline(ctx) {
     var aRedStart = angleOf(db2vu(0));
     ctx.beginPath();
@@ -306,11 +306,11 @@ function VU() {
     ctx.lineWidth = 10;
     ctx.stroke();
   }
-  
+
   function drawScaleMarks(ctx) {
     markAt(4, 20, thickMarkPositions);
     markAt(1, 10, thinMarkPositions);
-    
+
     function markAt(linew, len, positions) {
       alongScale(positions, function(percent, xconv, yconv, pos){
         var x0 = ox + baseRadius*xconv;
@@ -327,7 +327,7 @@ function VU() {
       })
     };
   }
-  
+
   function alongScale(positions, fn) {
     for (var i=0; i<positions.length; i++) {
       var percent = db2vu(positions[i]);
@@ -336,7 +336,7 @@ function VU() {
       fn(percent, xconv, yconv, positions[i]);
     }
   }
-  
+
   function drawScaleNumbers(ctx) {
     ctx.font = '16pt CaviarDreamsBold';
     ctx.textAlign = 'center';
@@ -354,10 +354,10 @@ function VU() {
       ctx.restore();
     })
   }
-  
+
   function drawIndicator(ctx, percent) {
     var len = 150; //210;
-    
+
     ctx.beginPath();
     ctx.save();
     ctx.translate(ox,oy);
@@ -373,7 +373,7 @@ function VU() {
     ctx.stroke();
     ctx.restore();
   }
-  
+
   function drawBottom(ctx) {
     ctx.beginPath();
     ctx.arc(ox,oy+10,30,0,Math.PI,true);
@@ -384,7 +384,7 @@ function VU() {
     ctx.fillStyle = colorScheme.borderBottomGrad;
     ctx.fill();
   }
-  
+
   // Animates needle by simulating a ringing oscillation around the
   // current value of 'input'
   // Damps oscillation using the reciprocal function of the log
@@ -408,7 +408,7 @@ function VU() {
     this.timeLeft -= deltaTimeMillis;
     if (this.timeLeft<0 && this.onComplete) this.onComplete();
   }
-  
+
   // Move the needle at fixed speed towards target value
   // The duration of anim depends on the 'distance' to target
   // When complete, start ringing anim
@@ -431,16 +431,16 @@ function VU() {
       });
     }
   }
-  
+
   function sign(x) {
     return x ? x < 0 ? -1 : 1 : 0;
   }
-  
+
   function animateIndicator(time) {
     var deltaTimeMillis = (time - animLastTime);
-    
+
     // NOTE: to reduce CPU consumption draw only when necessary
-    
+
     if (analyser && powered) {
       var rmsdb = rmsPowerAnalysis();
       //gconsole.log('dB '+rmsdb.toFixed(1));
@@ -459,10 +459,10 @@ function VU() {
       currentAnim.update(deltaTimeMillis);
       draw();
     }
-    
+
     requestAnimationFrame(animateIndicator);
     animLastTime = time;
-    
+
     if (showfps) {
       frameTime += deltaTimeMillis;
       frames += 1;
@@ -473,14 +473,14 @@ function VU() {
       }
     }
   }
-  
+
   function rmsPowerAnalysis() {
     if (!powered) return -Infinity;
-    
+
     var length = analyser.frequencyBinCount;
     var wavedata = new Uint8Array(length);
     analyser.getByteTimeDomainData(wavedata);
-    
+
     var power = 0;
     var numberOfChannels = 1; // fixme
     for (var i = 0; i < length; i++) {
@@ -490,57 +490,57 @@ function VU() {
     var rms = Math.sqrt(power / (numberOfChannels * length)) / DYNRANGE;
       return decibel(rms);
       }
-      
+
       function startAnimating(callback) {
       animLastTime = new Date().getTime();
       requestAnimationFrame(callback);
       }
-      
+
       function drawLightMultiplier(ctx) {
       ctx.rect(0,0,W,H);
       ctx.fillStyle = colorScheme.lightColor;
       ctx.fill();
       }
-      
+
       function drawGlass(ctx) {
       ctx.beginPath();
       ctx.rect(0,0,W,H);
       ctx.fillStyle = colorScheme.glassGrad;
       ctx.fill();
-      
+
       ctx.beginPath();
       ctx.arc(W/2,-W*1.05,W*1.2,aStart,aEnd,true);
       ctx.fillStyle = colorScheme.glassReflex;
       ctx.fill();
       }
-      
+
       function changeColorScheme(selectedIndex) {
       colorScheme = ColorDefs[selectedIndex];
       requestUpdateBackground();
       requestAnimationFrame(draw);
       }
-      
+
       ///// privileged members //////////////
       this.width = function() {
         return W;
       };
-      
+
       this.height = function() {
         return H;
       };
-      
+
       this.canvas = function() {
         return element;
       };
-      
+
       this.draw = function() {
         requestAnimationFrame(draw);
       };
-      
+
       this.connect = function(audioAnalyser) {
         analyser = audioAnalyser;
       }
-      
+
       this.lightMode = function(mode) { // day||night
         if (mode==='day' && selectedLight!=1) selectedLight=1;
         if (mode==='night' && selectedLight==1) {
@@ -549,15 +549,15 @@ function VU() {
         }
         changeColorScheme(selectedLight);
       };
-      
+
       // RB ////////
       this.setMeter = function(val) {
         if (powered) {
           currentAnim = new MoveAnim(val, needleSpeed/3);
         }
       };
-      
-      
+
+
       this.power = function(onOrOff) {
         if (onOrOff===undefined) return powered;
         if ((onOrOff=="on" || onOrOff==1) && !powered) {
@@ -573,34 +573,34 @@ function VU() {
           powered = false;
         }
       };
-      
+
       this.transientSensitivity = function(num) {
         if (num===undefined) return transientSensitivity;
         else transientSensitivity = num;
       }
-      
+
       this.input = function(percent) {
         if (powered) {
           currentAnim = new MoveAnim(percent, needleSpeed);
         }
       };
-      
+
       this.label = function(text) {
         labelText = text;
         requestUpdateBackground();
         requestAnimationFrame(draw);
       };
-      
+
       this.fps = function(onOrOff) {
         if (onOrOff===undefined) return showfps;
         if ((onOrOff=="on" || onOrOff==1) && !showfps) showfps = true;
         if ((onOrOff=="off" || onOrOff==0) && showfps) showfps = false;
       };
-      
+
       create();
       startAnimating(animateIndicator);
       };
-      
+
       ////////////////////////////////////
       // requestAnimationFrame polyfill (Paul Irish)
       (function() {
@@ -608,30 +608,31 @@ function VU() {
         var vendors = ['ms', 'moz', 'webkit', 'o'];
         for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
           window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-          window.cancelAnimationFrame = 
+          window.cancelAnimationFrame =
           window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
         }
-        
+
         if (!window.requestAnimationFrame)
           window.requestAnimationFrame = function(callback, element) {
             var currTime = new Date().getTime();
             var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
               timeToCall);
             lastTime = currTime + timeToCall;
             return id;
           };
-        
+
         if (!window.cancelAnimationFrame)
           window.cancelAnimationFrame = function(id) {
             clearTimeout(id);
           };
       }());
-      
+
       ///////////////////////////////////////
       // jQuery integration
       (function ($) {
         $.fn.vumetr = function(method) {
+          console.log("method: ",method)
           if (method) {
             var vu = $(this).data('vumetr');
             if (vu[method]) {

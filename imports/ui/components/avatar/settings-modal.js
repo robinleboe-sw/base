@@ -1,3 +1,7 @@
+/**
+ * Modal page for Sessionwire Studio AVATAR Talkback settings
+ */
+
 import React from 'react';
 import { Modal, Button, Form, FormGroup, Checkbox, FormControl, ControlLabel } from 'react-bootstrap';
 import { getInputValue } from '/imports/modules/get-input-value';
@@ -33,64 +37,55 @@ export class SettingsModal extends React.Component {
 
   toggleSendAudio(e) {
     const toggledValue = !this.state.sendAudioChecked;
-    // userSettings.sendAudioChecked = toggledValue;
     this.setState({sendAudioChecked: toggledValue});
   }
 
   toggleSendVideo(e) {
     const toggledValue = !this.state.sendVideoChecked;
-    // userSettings.sendVideoChecked = toggledValue;
     this.setState({sendVideoChecked: toggledValue});
   }
 
   toggleReceiveAudio(e) {
     const toggledValue = !this.state.receiveAudioChecked;
-    // userSettings.receiveAudioChecked = toggledValue;
     this.setState({receiveAudioChecked: toggledValue});
   }
 
   toggleReceiveVideo(e) {
     const toggledValue = !this.state.receiveVideoChecked;
-    // userSettings.receiveVideoChecked = toggledValue;
     this.setState({receiveVideoChecked: toggledValue});
   }
 
   toggleFreshIce(e) {
     const toggledValue = !this.state.freshIceChecked;
-    // userSettings.freshIceChecked = toggledValue;
     this.setState({freshIceChecked: toggledValue});
   }
 
   togglePushToTalk(e) {
     const toggledValue = !this.state.pushToTalkChecked;
-    // userSettings.pushToTalkChecked = toggledValue;
     this.setState({pushToTalkChecked: toggledValue});
   }
 
   selectAudioMode(e) {
     const newValue = getInputValue(e.target);
-    // userSettings.selectedAudioMode = newValue;
     this.setState({selectedAudioMode: newValue});
   }
 
   selectTalkbackSource(e) {
     const newValue = getInputValue(e.target);
-    // userSettings.selectedTalkbackSource = newValue;
     this.setState({selectedTalkbackSource: newValue});
   }
 
   selectTalkbackDestination(e) {
     const newValue = getInputValue(e.target);
-    // userSettings.selectedTalkbackDestination = newValue;
     this.setState({selectedTalkbackDestination: newValue});
   }
 
   selectVideoSource(e) {
     const newValue = getInputValue(e.target);
-    // userSettings.selectedVideoSource = newValue;
     this.setState({selectedVideoSource: newValue})
   }
 
+  // copy state values to update object passed to updateSettings method
   handleUpdateSettings(e) {
     const settingsId = this.props.settings[0]._id;
     console.log(this.state)
@@ -118,8 +113,14 @@ export class SettingsModal extends React.Component {
     });
   }
 
+  // update and close modal
+  handleSave(e) {
+    this.handleUpdateSettings();
+    this.props.onHide();
+  }
+
   render() {
-    // get data passed in from settings-data
+    // get data passed in from settings-data container
     const userSettings = this.props.settings[0];
     // copy props and delete 'unknown prop' settings before passing to div
     const divProps = Object.assign({}, this.props);
@@ -199,7 +200,7 @@ export class SettingsModal extends React.Component {
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>
           <Button bsStyle="info" onClick={this.handleUpdateSettings.bind(this)}>Apply Settings</Button>
-          <Button bsStyle="success">Save Settings</Button>
+          <Button bsStyle="success" onClick={this.handleSave.bind(this)}>Save Settings</Button>
         </Modal.Footer>
       </Modal>
     );

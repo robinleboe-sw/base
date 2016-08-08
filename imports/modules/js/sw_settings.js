@@ -49,7 +49,7 @@ export function swSaveSettings() {
   localStorage.setItem( 'avatarSettings', JSON.stringify(favs) );
 
   // Set globals from settings
-  enableLocalAudio( !document.getElementById('pushToTalk').checked );   //// Enable audio based on push-to-talk in settings//
+  // enableLocalAudio( !document.getElementById('pushToTalk').checked );   //// Enable audio based on push-to-talk in settings//
 }
 
 // load settings from local storage
@@ -62,7 +62,7 @@ export function swLoadSettings() {
     }
 
     // Set globals from settings
-    enableLocalAudio( !document.getElementById('pushToTalk').checked );   //// Enable audio based on push-to-talk in settings//
+    // enableLocalAudio( !document.getElementById('pushToTalk').checked );   //// Enable audio based on push-to-talk in settings//
 
   } else {
     console.log("Settings not in localstorage")

@@ -1,3 +1,7 @@
+/**
+ * Sign up page for Sessionwire Studio
+ */
+
 import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
@@ -59,11 +63,11 @@ export class Signup extends React.Component {
                 autoComplete="new-password"
               />
             </FormGroup>
-            <Button type="submit" bsStyle="btn btn-primary block full-width m-b">Sign Up</Button>
+            <Button type="submit" bsStyle="primary" className="block full-width m-b">Sign Up</Button>
             <p className="text-muted text-center"><small>Already have an account?</small></p>
             <p>
               <LinkContainer to="/login">
-                <Button bsStyle="btn btn-white block full-width m-b" href="/login" role="button">Login</Button>
+                <Button className="btn-white block full-width m-b" href="/login" role="button">Login</Button>
               </LinkContainer>
             </p>
           </form>

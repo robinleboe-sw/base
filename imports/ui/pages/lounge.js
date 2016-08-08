@@ -6,6 +6,7 @@ import SettingsList from '/imports/ui/containers/settings-data'
 import { ConnectModal } from '/imports/ui/components/avatar/connect-modal'
 import { LocalVideo } from '/imports/ui/components/avatar/local-video'
 import { RemoteVideo } from '/imports/ui/components/avatar/remote-video'
+import '/imports/modules/js/vumetr'
 
 import '/imports/modules/js/jquery-ui.min.js'
 import '/imports/modules/js/socket.io.min.js'
@@ -70,6 +71,10 @@ export class Lounge extends React.Component {
 
   handleAlertDismiss() {
     this.setState({ alertVisible: false });
+  }
+
+  componentDidMount() {
+    console.log('Mounted!');
   }
 
   render() {
