@@ -37,3 +37,5 @@ momentjs:moment
 meteortoys:allthings
 ddp-rate-limiter@1.0.5
 fourseven:scss@3.8.0_1
+#u2622:persistent-session
+matb33:collection-hooks

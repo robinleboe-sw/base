@@ -6,10 +6,11 @@ import { AuthenticatedNavigation } from './authenticated-navigation';
 import { AdminNavigation } from './admin-navigation';
 import { Roles } from 'meteor/alanning:roles';
 
+// override hover effect for header logo text
+var logoTextStyle = {color:'white'}
 
 export class AppNavigation extends React.Component {
   renderNavigation(hasUser) {
-    console.log(hasUser)
     if(!!hasUser && Roles.userIsInRole(hasUser,['admin'])) {
       return <AdminNavigation />
     } else {
@@ -23,7 +24,7 @@ export class AppNavigation extends React.Component {
       <Navbar staticTop fluid>
       <Navbar.Header>
         <Navbar.Brand>
-          <Link to="/"><img src="/app/logo-nav.png" /> sessionwire.studio</Link>
+          <Link to="/"><img src="/app/logo-nav.png" /> <span style={logoTextStyle}>sessionwire.studio</span></Link>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>

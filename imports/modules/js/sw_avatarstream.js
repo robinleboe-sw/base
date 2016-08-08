@@ -10,49 +10,50 @@
  NOTES
  Because easyrtc.initMediaSource() has issues with constraints, we use getUserMedia() directly and then
  use easyrtc.register3rdPartyLocalMediaStream() to add name to stream so we can use it with easyrtc.
- 
+
  TODO: Currently setting input devices by loading sw_settings from localstorage.
  Setting output device not happening on loading app: sinkId not being set until menu selectedIndex
  audioInputSelect and audioOutputSelect not being set on startup: value is 'default' at entry to createStream();
- 
+
  TODO: Need to change flow: with the current design, changing audio settings will result in dropping the current stream,
  and thus dropping the call. Should modify onchange functions so they only save changes to localstorage via
  sw_save_settings(), then call sw_loadSettings() just before setting constraints. So changes to settings will not
  affect current call, and will take effect on next login.
- 
+
  TODO: default input mic volume is being set to 33% by either enumeratedevices or gUM...
  ALSO: see https://bugs.chromium.org/p/chromium/issues/detail?id=525443 for googDucking flag, which should be set to false (if still supported?)
  AND: see https://jsfiddle.net/e9xtt4cs/ for how order of connection affects gUM !!! from Comment 39 on https://bugs.chromium.org/p/chromium/issues/detail?id=376796
  */
+import { swSaveSettings } from '/imports/modules/js/sw_settings.js'
 
 'use strict';
 
 var Avatar = function() {
   var self = this;
-  
-  
+
+
   this.streamName = 'avatarStream';  // Name for avatar network stream
   var audioInputSelect = document.querySelector('select#audioSource');
   var audioOutputSelect = document.querySelector('select#audioOutput');
   var videoSelect = document.querySelector('select#videoSource');
   var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
-  
+
   this.localVideo = document.querySelector('#localVideo');
   // TODO: remoteVideo should get moved out, prepare for multi-party conference variable number of parties
   this.remoteVideo = document.querySelector('#remoteVideo');  // DOM element for remote a/v
-  
+
   // SDP filters passed during call() or on adding stream to set codecs, bitrates, modes
   this.local_sdp_filter = '';
   this.remote_sdp_filter = '';
-  
-  
+
+
   //
   // gotDevices()
   // Called with deviceInfos returned by mediaDevices.enumerateDevices()
   //
   function gotDevices(deviceInfos) {
     console.log('Entering gotDevices()...');
-    
+
     // Handles being called several times to update labels. Preserve values.
     var values = selectors.map(function(select) {
       return select.value;
@@ -89,10 +90,10 @@ var Avatar = function() {
       }
     });
     console.log('... Leaving gotDevices()');
-    
+
   }
-  
-  
+
+
   //
   // attachSinkId()
   // Attach audio output device to video element using device/sink ID.
@@ -117,8 +118,8 @@ var Avatar = function() {
       console.warn('Browser does not support output device selection.');
     }
   }
-  
-  
+
+
   //
   //
   //
@@ -127,27 +128,27 @@ var Avatar = function() {
     var audioDestination = audioOutputSelect.value;
     attachSinkId(self.remoteVideo, audioDestination);
   }
-  
-  
+
+
   //
   function gotStream(stream) {
     sw_utils.TRACE.enter('Entering avatar.gotStream()');
-    
+
     // set name for stream to allow dealing with multiple streams, attach to media element
     easyrtc.register3rdPartyLocalMediaStream(stream, 'avatarStream')
     console.log("getLocalStream(avatar.streamName).id: " + easyrtc.getLocalStream(self.streamName).id); ///////DEBUG
     sw_utils.TRACE.green('Media IDs: ' + easyrtc.getLocalMediaIds() ); ///DEBUG
-    
+
     sw_utils.TRACE.blue('attaching stream: ' + stream.id + '(' + stream.streamName + ') to: ' + self.localVideo.id);
     easyrtc.setVideoObjectSrc( self.localVideo, stream); ////////
-    
+
     sw_utils.TRACE.leave('avatar.gotStream()');
 
     // Refresh list in case new devices have become available
     return navigator.mediaDevices.enumerateDevices();
   }
-  
-  
+
+
   //
   // createStream()
   // create the stream, connect input and output devices
@@ -155,14 +156,14 @@ var Avatar = function() {
   //
   this.createStream = function () {
     sw_utils.TRACE.enter('avatar.createStream()');
-    
+
 //delete    if (window.stream) {
  //     console.log('Stopping window.stream tracks: ' + window.stream.id );
  //     window.stream.getTracks().forEach(function(track) {
  //       track.stop();
  //     });
  //   }
-    
+
     var avStr = easyrtc.getLocalStream("avatarStream");
     if(avStr) {
       // no point just stopping tracks: if we're getting new stream anyway, just close the old one...
@@ -173,17 +174,17 @@ var Avatar = function() {
       console.log('Closing avatarStream: ' + avStr.id);
       easyrtc.closeLocalMediaStream("avatarStream");
     }
-    
+
     // ###### DEBUG: kludge.. load settings from local storage directly here.
     swLoadSettings();
     self.changeAudioDestination();
     //^^^^^
-    
+
     var audioMode = document.querySelector('select#audioMode').value;
     var audioSource = audioInputSelect.value;
     var videoSource = videoSelect.value;
     var constraints = 'none';
-    
+
     // set up media constraints depending on mode: high-quality 'Audio', or voice conferencing 'Voice'
     switch (audioMode) {
       case 'Audio':
@@ -214,7 +215,7 @@ var Avatar = function() {
       case 'Voice':
 /* deprecated syntax for Chrome ver <=51 */
         var constraints = {
-          audio: { 
+          audio: {
             mandatory: {
               sourceId: audioSource ? audioSource : undefined ,
               echoCancellation: true
@@ -226,7 +227,7 @@ var Avatar = function() {
         };
 /* new syntax (not supported in Chrome yet)
         constraints = {
-        audio: { 
+        audio: {
           deviceId: audioSource ? {exact: audioSource} : undefined,
            echoCancellation: true
         },
@@ -242,35 +243,35 @@ var Avatar = function() {
         console.log("Unsupported audioModeSelect.value in sw_selectAV: " + audioMode);
         break;
     };
-    
+
     console.log('Calling gUM...');
     console.log('audioSource = ' + audioSource);
     console.log('videoSource = ' + videoSource);
-    
+
     /*******DEBUG*******
     constraints = {
     audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
     video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };
     ******************/
-    
+
     navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handle_gUM_Error);
     //INITMEDIASOURCE    easyrtc._presetMediaConstraints = constraints;
     //INITMEDIASOURCE    easyrtc.initMediaSource(gotStream, handle_iMS_Error);
-    
+
     sw_utils.TRACE.leave('avatar.createStream()');
-    
+
   }
-  
-  
+
+
   //
   //
   //
   function handle_iMS_Error() {
     console.log('easyrtc.initMediaSource Error:' + errorCode + ',' + errorText);
   }
-  
-  
+
+
   //
   // setSDP()
   // set SDP parameters for codec, bitrate, mode for 'Voice' (conferencing) or 'Audio' (high quality)
@@ -283,7 +284,7 @@ var Avatar = function() {
     var voicebitrate='32';  // "
     var local_sdp_filter = "";
     var remote_sdp_filter = "";
-    
+
     var audioMode = document.querySelector('select#audioMode').value;
     switch (audioMode) {
       case 'Audio':
@@ -303,13 +304,13 @@ var Avatar = function() {
 
     sw_utils.TRACE.leave('avatar.setSDP()');
   }
-  
+
   //
   // init()
   // get initial devices list, set handlers for changes to device selection
   //
   this.init = function() {
-    
+
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handle_eD_Error);
     /*
      audioInputSelect.onchange = self.createStream;
@@ -320,24 +321,24 @@ var Avatar = function() {
     audioInputSelect.onchange = swSaveSettings;
     audioOutputSelect.onchange = swSaveSettings;
     videoSelect.onchange = swSaveSettings;
-    
+
   }
-  
-  
+
+
   //
   // closeStream()
   //
   this.closeStream = function() {
     sw_utils.TRACE.enter('avatar.closeStream()');
     console.log('avatar.avatarStream: ' + easyrtc.getLocalStream('avatarStream').id);
-    
+
     easyrtc.clearMediaStream( self.localVideo );
     easyrtc.setVideoObjectSrc( self.localVideo, "" ); // same thing as clearMediaStream?
     easyrtc.closeLocalMediaStream('avatarStream');
-    
+
     sw_utils.TRACE.leave('avatar.closeStream()');
   }
-  
+
   //
   // handle_gUM_Error()
   // Error handler function for getUserMedia()
@@ -345,7 +346,7 @@ var Avatar = function() {
   function handle_gUM_Error(error) {
     console.log('getUserMedia() error: ', error);
   }
-  
+
   //
   // handle_eD_Error()
   // Error handler function for enumerateDevices()
@@ -353,7 +354,7 @@ var Avatar = function() {
   function handle_eD_Error(error) {
     console.log('enumerateDevices() error: ', error);
   }
-  
+
 } // avatar()
 
 
@@ -379,6 +380,6 @@ function dumpDevInfos() {
       console.log(di.kind + ', ' + di.label + ', ' + di.deviceId);
     }
     console.log("------- ------- --------");
-    
+
   });
 }

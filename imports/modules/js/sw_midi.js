@@ -21,7 +21,7 @@ function onMIDISuccess( midiAccess ) {
   console.log( "MIDI ready!" );
   midi = midiAccess;  // store in the global (in real usage, would probably keep in an object instance)
 //  listInputsAndOutputs( midi );
-  
+
   listAllInsAndOuts();
 }
 
@@ -41,7 +41,7 @@ if (navigator.requestMIDIAccess) {
 //-------------
 // List all MIDI inputs and outputs to the console
 function listAllInsAndOuts() {
-  
+
   var inputs = midi.inputs.values();
   // loop through all inputs
   for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
@@ -51,7 +51,7 @@ function listAllInsAndOuts() {
       "' version: '" + inval.version + "']");
   }
 
-  document.getElementById("outputportselector").innerHTML = "";
+  //document.getElementById("outputportselector").innerHTML = "";
 
   var outputs = midi.outputs.values();
   // loop through all outputs
@@ -60,10 +60,10 @@ function listAllInsAndOuts() {
     console.log("MIDI Output port : [ type:'" + outval.type + "' id: '" + outval.id +
       "' manufacturer: '" + outval.manufacturer + "' name: '" + outval.name +
       "' version: '" + outval.version + "' state: '" + outval.state + "' connection: '" + outval.connection + "']");
-    
+
     var opt = document.createElement("option");
     opt.text = outval.name;
-    document.getElementById("outputportselector").add(opt);
+    //document.getElementById("outputportselector").add(opt);
 
   }
 
@@ -73,14 +73,14 @@ function listAllInsAndOuts() {
     document.getElementById("outputportselector").add(opt);
   }
  */
-  
+
 }
 //--------------
 
 
 
 
-var mmcStop = 0x01; 
+var mmcStop = 0x01;
 var mmcPlay = 0x02;
 var mmcDeferredPlay = 0x03;  // (play after no longer busy)
 var mmcFastForward  = 0x04;
@@ -104,7 +104,7 @@ function sendTransport( midiAccess, portID, mmcCmd ) {
 //  var output = midiAccess.outputs.get(portID);
   var output = midiAccess.outputs.values().next().value;
   output.send( mmcMessage );  //omitting the timestamp means send immediately.
-  
+
 }
 
 // sendLocate
@@ -156,32 +156,32 @@ function sendMiddleC( midiAccess, portID ) {
 // listInputsAndOutputs
 // get the list of the input and output ports and prints their information to the console log
 function listInputsAndOutputs( midiAccess ) {
-  
+
   var numberOfMIDIInputs = midiAccess.inputs.size;
   var numberOfMIDIOutputs = midiAccess.outputs.size;
   console.log( "# of Midi Inputs:" + numberOfMIDIInputs + " # of Midi Outputs:" + numberOfMIDIOutputs);
-  
+
   //---------
   //TBD: This is from the W3C examples, which don't work.
-  
+
   for (var input in midiAccess.inputs) {
     console.log( "Input port [type:'" + input.type + "'] id:'" + input.id +
       "' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
       "' version:'" + input.version + "'" );
   }
-  
+
   for (var output in midiAccess.outputs) {
     console.log( "Output port [type:'" + output.type + "'] id:'" + output.id +
       "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
       "' version:'" + output.version + "'" );
   }
-  
+
   midiAccess.inputs.forEach( function( key, port ) {
     console.log( "Input port key: " + key + " name:" +  port.name);
   });
-  
+
   //---------
-  
+
 }
 
 
