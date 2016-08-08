@@ -22,7 +22,6 @@ check@1.2.3
 audit-argument-checks@1.0.7
 browser-policy@1.0.9
 
-fourseven:scss
 aldeed:collection2
 alanning:roles
 themeteorchef:bert
@@ -32,8 +31,9 @@ practicalmeteor:mocha
 xolvio:backdoor
 mdg:validated-method
 dburles:factory@1.0.0
-random
-email
+random@1.0.10
+email@1.1.16
 momentjs:moment
 meteortoys:allthings
 ddp-rate-limiter@1.0.5
+fourseven:scss@3.8.0_1
