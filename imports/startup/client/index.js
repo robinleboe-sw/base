@@ -1,6 +1,8 @@
+/**
+ * client prefs and refs
+ */
+
 import { Bert } from 'meteor/themeteorchef:bert';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap-sass';
 import './routes.js';
 
