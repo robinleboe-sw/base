@@ -6,6 +6,10 @@ import SettingsList from '/imports/ui/containers/settings-data'
 import { ConnectModal } from '/imports/ui/components/avatar/connect-modal'
 import { LocalVideo } from '/imports/ui/components/avatar/local-video'
 import { RemoteVideo } from '/imports/ui/components/avatar/remote-video'
+import Avatar from '/imports/ui/containers/avatar'
+
+import { Meteor } from 'meteor/meteor'
+
 
 import '/imports/modules/js/jquery-ui.min.js'
 import '/imports/modules/js/socket.io.min.js'
@@ -16,11 +20,15 @@ import '/imports/modules/js/vumetr.js'
 import '/imports/modules/js/sw_utils.js'
 import '/imports/modules/js/sw_filesharing.js'
 import '/imports/modules/js/sw_audio_video.js'
-import '/imports/modules/js/sw_avatarstream.js'
+// import '/imports/modules/js/sw_avatarstream.js'
 import '/imports/modules/js/sw_talkback.js'
 import '/imports/modules/js/sw_datachannel.js'
 import '/imports/modules/js/sw_midi.js'
-import '/imports/modules/js/sw_avatarInit.js'
+// import '/imports/modules/js/sw_avatarInit.js'
+
+import { swLoadSettings } from '/imports/modules/js/sw_settings'
+import '/imports/modules/js/sw_audio_video'
+import { initMeters } from '/imports/modules/js/sw_meters'
 
 const subscription = Meteor.subscribe('mesh');
 
@@ -71,7 +79,14 @@ export class Lounge extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Mounted!');
+    // console.log('Mounted!');
+    swLoadSettings();
+    // audioVideoInit();
+    initMeters();
+    // const name = user && user.profile ? user.profile.name : '';
+    // return user ? `${name.first} ${name.last}` : '';
+    //easyrtc.setUsername(user);
+    //avatar.init();
   }
 
   render() {
@@ -116,6 +131,8 @@ export class Lounge extends React.Component {
                 </p>
               </row>
             </Alert> : null}
+          <Avatar/>
+
         </Col>
         <Col xs={6}>
           <LocalVideo/>

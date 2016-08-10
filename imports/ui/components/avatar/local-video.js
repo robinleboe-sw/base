@@ -1,5 +1,6 @@
 import React from 'react';
 import '/imports/modules/js/sw_meters.js'
+import { Session } from 'meteor/session'
 
 const localVideoStyle = {
   display: "block"
@@ -10,7 +11,15 @@ const localVideoVUStyle = {
 }
 
 export class LocalVideo extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      connected: false,
+      settingsShow: false,
+      connectShow: false,
+      alertVisible: true
+    };
+  }
 
   render() {
 

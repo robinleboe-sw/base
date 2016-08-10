@@ -10,6 +10,7 @@
  * Possible modes for VU:
  * - Click to toggle between VU and video
  * - shows VU any time video is not showing. VU shows powered on when connected, power off when not connected.
+ * - vumetr imported in lounge.js
  *
  *  TODO:
 Re-do VU meters to call callback from getAnimationFrame which supplies current values for meter. Start and stop getAnimationFrame when VU meters visible/not visible. Render only moving parts in realtime (overlapping transparent canvases).
@@ -71,8 +72,8 @@ export function initMeters() {
   });
 
   // Show meters by default
-  // showLocalMeter();
-  // showRemoteMeter();
+  showLocalMeter();
+  showRemoteMeter();
    /***/
 }
 
@@ -95,34 +96,33 @@ function localLoggedIn() {
   return( !!(tempConnectButton == "disabled") );
 }
 
-
-//
-//
-// function showRemoteMeter() {
-//   // show meter off if not connected to other user, on if connected
-//   if( document.getElementById('hangupButton').disabled == false) {
-//     $("#divRemoteVU").vumetr('power', true);
-//   } else {
-//     $("#divRemoteVU").vumetr('power', false);
-//   }
-//
-//   $("#remoteVideo").hide();
-//   $("#divRemoteVU").show();
-// }
+function showRemoteMeter() {
+  const tempHangupButton = false; // is connect status true?
 
 
-//
-//
-// function showLocalMeter() {
-//   // show meter off if not logged in, on if logged in
-//   if( tempConnectButton == true) {
-//     $("#divLocalVU").vumetr('power', true);
-//   } else {
-//     $("#divLocalVU").vumetr('power', false);
-//   }
-//   $("#localVideo").hide();
-//   $("#divLocalVU").show();
-// }
+  // show meter off if not connected to other user, on if connected
+  if( tempHangupButton == false) {
+    $("#divRemoteVU").vumetr('power', true);
+  } else {
+    $("#divRemoteVU").vumetr('power', false);
+  }
+
+  $("#remoteVideo").hide();
+  $("#divRemoteVU").show();
+}
+
+function showLocalMeter() {
+  const tempConnectButton = true; // is connect status true?
+
+  // show meter off if not logged in, on if logged in
+  if( tempConnectButton == true) {
+    $("#divLocalVU").vumetr('power', true);
+  } else {
+    $("#divLocalVU").vumetr('power', false);
+  }
+  $("#localVideo").hide();
+  $("#divLocalVU").show();
+}
 
 
 // setMeterOnOff()

@@ -1,4 +1,4 @@
-/*
+/**
  *  sw_avatarInit.js
  *  Rick Beaton
  *  April 2016
@@ -19,6 +19,7 @@
 import { swLoadSettings } from '/imports/modules/js/sw_settings'
 import '/imports/modules/js/sw_audio_video'
 import { initMeters } from '/imports/modules/js/sw_meters'
+import { Meteor } from 'meteor/meteor';
 
 window.onload = function() {
 
@@ -30,14 +31,15 @@ window.onload = function() {
   function audioVideoInit() {
     // enable("connectButton");
     // disable("disconnectButton");
-  console.log("audioVideoInit() fired")
   }
-
-  swLoadSettings();
-  audioVideoInit();
-  initMeters();
+  console.log("avatar is: ",avatar)
+  // swLoadSettings();
+  // audioVideoInit();
+  // initMeters();
 
   const user = Meteor.user();
+  console.log("user: ",user)
+
   const name = user && user.profile ? user.profile.name : '';
   return user ? `${name.first} ${name.last}` : '';
 
@@ -45,6 +47,8 @@ window.onload = function() {
   var _localUserName = user;
   easyrtc.setUsername(_localUserName);
   document.getElementById('localUserName').innerHTML = _localUserName;
+
+  console.log("avatar is: ",avatar)
 
   avatar.init();
 
