@@ -7,8 +7,13 @@ import { Modal, Button, Form, FormGroup, Checkbox, FormControl, ControlLabel } f
 import { getInputValue } from '/imports/modules/get-input-value';
 import { updateSettings } from '../../../api/users/methods';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { objToStrMap } from '/imports/modules/object-map-conversion.js'
 
 // TODO: wire up JS files and force browser refresh on save settings...
+
+function handle_eD_Error(error) {
+  console.log('enumerateDevices() error: ', error);
+}
 
 export class SettingsModal extends React.Component {
   constructor(props) {
@@ -30,10 +35,39 @@ export class SettingsModal extends React.Component {
       selectedTalkbackSource: settings.selectedTalkbackSource,
       selectedTalkbackDestination: settings.selectedTalkbackDestination,
       selectedVideoSource: settings.selectedVideoSource,
-      selectedAudioMode: settings.selectedAudioMode
+      selectedAudioMode: settings.selectedAudioMode,
+      talkbackSourceOptions: [],
+      talkbackDestinationOptions: [],
+      videoSourceOptions: []
     }
   }
 
+  componentDidMount() {
+    navigator.mediaDevices.enumerateDevices().then(this.gotDevices.bind(this)).catch(handle_eD_Error);
+  }
+
+  gotDevices(deviceInfos) {
+    // convert deviceInfos object to map
+    let deviceInfosMap = objToStrMap(deviceInfos);
+    // iterate over map and use switch to create options based on kind
+    // and push them onto arrays stored in component state object
+    for (var [key, device] of deviceInfosMap) {
+      let kind = device.kind;
+      switch(kind) {
+        case "audioinput":
+          this.state.talkbackSourceOptions.push(<option key={key} value={device.deviceId}>{device.label}</option>)
+          break;
+        case "audiooutput":
+          this.state.talkbackDestinationOptions.push(<option key={key} value={device.deviceId}>{device.label}</option>)
+          break;
+        case "videoinput":
+          this.state.videoSourceOptions.push(<option key={key} value={device.deviceId}>{device.label}</option>)
+          break;
+        default:
+        console.log("Error creating option from navigator.mediaDevices.enumerateDevices() via gotDevices(deviceInfos)");
+      }
+    }
+  }
 
   toggleSendAudio(e) {
     const toggledValue = !this.state.sendAudioChecked;
@@ -166,16 +200,12 @@ export class SettingsModal extends React.Component {
               <ControlLabel>Talkback Source</ControlLabel>
               <FormControl value={this.state.selectedTalkbackSource} componentClass="select" placeholder="select Talkback Input" onChange={this.selectTalkbackSource.bind(this)}>
                 <option value="select">select</option>
-                <option value="1">Audio Source 1</option>
-                <option value="2">Audio Source 2</option>
-                <option value="3">Audio Source 3</option>
+                {this.state.talkbackSourceOptions}
               </FormControl>
               <ControlLabel>Talkback Destination</ControlLabel>
               <FormControl value={this.state.selectedTalkbackDestination} componentClass="select" placeholder="select Talkback Output" onChange={this.selectTalkbackDestination.bind(this)}>
                 <option value="select">select</option>
-                <option value="1">Audio Destination 1</option>
-                <option value="2">Audio Destination 2</option>
-                <option value="3">Audio Destination 3</option>
+                {this.state.talkbackDestinationOptions}
               </FormControl>
             </FormGroup>
             <h4>AVATAR Talkback Video Options</h4>
@@ -183,9 +213,7 @@ export class SettingsModal extends React.Component {
               <ControlLabel>Video Source</ControlLabel>
               <FormControl value={this.state.selectedVideoSource} componentClass="select" placeholder="select Video Source" onChange={this.selectVideoSource.bind(this)}>
                 <option value="select">select</option>
-                <option value="1">Video Source 1</option>
-                <option value="2">Video Source 2</option>
-                <option value="3">Video Source 3</option>
+                {this.state.videoSourceOptions}
               </FormControl>
             </FormGroup>
             <h4>AVATAR Talkback Advanced Options</h4>

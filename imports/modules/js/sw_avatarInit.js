@@ -44,11 +44,11 @@ window.onload = function() {
   return user ? `${name.first} ${name.last}` : '';
 
   // display username from settings instead of rtcids
-  var _localUserName = user;
-  easyrtc.setUsername(_localUserName);
-  document.getElementById('localUserName').innerHTML = _localUserName;
-
-  console.log("avatar is: ",avatar)
+  // var _localUserName = user;
+  // easyrtc.setUsername(_localUserName);
+  // document.getElementById('localUserName').innerHTML = _localUserName;
+  //
+  // console.log("avatar is: ",avatar)
 
   avatar.init();
 

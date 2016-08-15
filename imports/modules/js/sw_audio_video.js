@@ -11,20 +11,20 @@ var remoteEasyrtcid = "";
 
 //var havelocalVideo = false;
 
-function disable(domId) {
-    document.getElementById(domId).disabled = "disabled";
-}
-
-function enable(domId) {
-    document.getElementById(domId).disabled = "";
-}
-
-function isDisabled(domId) {
-  return (document.getElementById(domId).disabled === "disabled");
-}
-function isEnabled(domId) {
-  return (document.getElementById(domId).disabled === "");
-}
+// function disable(domId) {
+//     document.getElementById(domId).disabled = "disabled";
+// }
+//
+// function enable(domId) {
+//     document.getElementById(domId).disabled = "";
+// }
+//
+// function isDisabled(domId) {
+//   return (document.getElementById(domId).disabled === "disabled");
+// }
+// function isEnabled(domId) {
+//   return (document.getElementById(domId).disabled === "");
+// }
 
 
 // audioVideoInit()

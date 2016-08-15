@@ -1,10 +1,8 @@
-//////////////////////////////////////////////
-// avatarstream2
-// Created: June 26, 2016
-// Last update: July 4, 2016. RJB
-// replaces sw_selectAV.js
-//
-//////////////////////////////////////////////
+/** avatarstream2
+ * Created: June 26, 2016
+ * Last update: July 4, 2016. RJB
+ * replaces sw_selectAV.js
+ */
 
 /*
  NOTES
@@ -24,6 +22,7 @@
  ALSO: see https://bugs.chromium.org/p/chromium/issues/detail?id=525443 for googDucking flag, which should be set to false (if still supported?)
  AND: see https://jsfiddle.net/e9xtt4cs/ for how order of connection affects gUM !!! from Comment 39 on https://bugs.chromium.org/p/chromium/issues/detail?id=376796
  */
+
 import { swSaveSettings } from '/imports/modules/js/sw_settings.js'
 
 'use strict';
@@ -31,103 +30,98 @@ import { swSaveSettings } from '/imports/modules/js/sw_settings.js'
 var Avatar = function() {
   var self = this;
 
+  //** this.streamName = 'avatarStream';  // Name for avatar network stream
+  // var audioInputSelect = document.querySelector('select#audioSource');
+  // var audioOutputSelect = document.querySelector('select#audioOutput');
+  // var videoSelect = document.querySelector('select#videoSource');
+  // var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
-  this.streamName = 'avatarStream';  // Name for avatar network stream
-  var audioInputSelect = document.querySelector('select#audioSource');
-  var audioOutputSelect = document.querySelector('select#audioOutput');
-  var videoSelect = document.querySelector('select#videoSource');
-  var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
-
-  this.localVideo = document.querySelector('#localVideo');
-  // TODO: remoteVideo should get moved out, prepare for multi-party conference variable number of parties
-  this.remoteVideo = document.querySelector('#remoteVideo');  // DOM element for remote a/v
+  // this.localVideo = document.querySelector('#localVideo');
+  // // TODO: remoteVideo should get moved out, prepare for multi-party conference variable number of parties
+  // this.remoteVideo = document.querySelector('#remoteVideo');  // DOM element for remote a/v
 
   // SDP filters passed during call() or on adding stream to set codecs, bitrates, modes
-  this.local_sdp_filter = '';
-  this.remote_sdp_filter = '';
+  //** this.local_sdp_filter = '';
+  //** this.remote_sdp_filter = '';
 
 
   //
   // gotDevices()
   // Called with deviceInfos returned by mediaDevices.enumerateDevices()
   //
-  function gotDevices(deviceInfos) {
-    console.log('Entering gotDevices()...');
-
-    // Handles being called several times to update labels. Preserve values.
-    var values = selectors.map(function(select) {
-      return select.value;
-    });
-    selectors.forEach(function(select) {
-      while (select.firstChild) {
-        select.removeChild(select.firstChild);
-      }
-    });
-    for (var i = 0; i !== deviceInfos.length; ++i) {
-      var deviceInfo = deviceInfos[i];
-      var option = document.createElement('option');
-      option.value = deviceInfo.deviceId;
-      if (deviceInfo.kind === 'audioinput') {
-        option.text = deviceInfo.label ||
-        'microphone ' + (audioInputSelect.length + 1);
-        audioInputSelect.appendChild(option);
-      } else if (deviceInfo.kind === 'audiooutput') {
-        option.text = deviceInfo.label || 'speaker ' +
-        (audioOutputSelect.length + 1);
-        audioOutputSelect.appendChild(option);
-      } else if (deviceInfo.kind === 'videoinput') {
-        option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
-        videoSelect.appendChild(option);
-      } else {
-        console.log('Some other kind of source/device: ', deviceInfo);
-      }
-    }
-    selectors.forEach(function(select, selectorIndex) {
-      if (Array.prototype.slice.call(select.childNodes).some(function(n) {
-        return n.value === values[selectorIndex];
-      })) {
-        select.value = values[selectorIndex];
-      }
-    });
-    console.log('... Leaving gotDevices()');
-
-  }
+  // function gotDevices(deviceInfos) {
+  //   console.log('Entering gotDevices()...');
+  //
+  //   // Handles being called several times to update labels. Preserve values.
+  //   var values = selectors.map(function(select) {
+  //     return select.value;
+  //   });
+  //   selectors.forEach(function(select) {
+  //     while (select.firstChild) {
+  //       select.removeChild(select.firstChild);
+  //     }
+  //   });
+  //   for (var i = 0; i !== deviceInfos.length; ++i) {
+  //     var deviceInfo = deviceInfos[i];
+  //     var option = document.createElement('option');
+  //     option.value = deviceInfo.deviceId;
+  //     if (deviceInfo.kind === 'audioinput') {
+  //       option.text = deviceInfo.label ||
+  //       'microphone ' + (audioInputSelect.length + 1);
+  //       audioInputSelect.appendChild(option);
+  //     } else if (deviceInfo.kind === 'audiooutput') {
+  //       option.text = deviceInfo.label || 'speaker ' +
+  //       (audioOutputSelect.length + 1);
+  //       audioOutputSelect.appendChild(option);
+  //     } else if (deviceInfo.kind === 'videoinput') {
+  //       option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
+  //       videoSelect.appendChild(option);
+  //     } else {
+  //       console.log('Some other kind of source/device: ', deviceInfo);
+  //     }
+  //   }
+  //   selectors.forEach(function(select, selectorIndex) {
+  //     if (Array.prototype.slice.call(select.childNodes).some(function(n) {
+  //       return n.value === values[selectorIndex];
+  //     })) {
+  //       select.value = values[selectorIndex];
+  //     }
+  //   });
+  //   console.log('... Leaving gotDevices()');
+  //
+  // }
 
 
   //
   // attachSinkId()
   // Attach audio output device to video element using device/sink ID.
   //
-  function attachSinkId(element, sinkId) {
-    if (typeof element.sinkId !== 'undefined') {
-      element.setSinkId(sinkId)
-      .then(function() {
-        sw_utils.TRACE.blue('Audio output device attached: ' + sinkId + ' to: ' + element.id);
-      })
-      .catch(function(error) {
-        var errorMessage = error;
-        if (error.name === 'SecurityError') {
-          errorMessage = 'You need to use HTTPS for selecting audio output ' +
-          'device: ' + error;
-        }
-        console.error(errorMessage);
-        // Jump back to first output device in the list as it's the default.
-        audioOutputSelect.selectedIndex = 0;
-      });
-    } else {
-      console.warn('Browser does not support output device selection.');
-    }
-  }
-
-
+  // function attachSinkId(element, sinkId) {
+  //   if (typeof element.sinkId !== 'undefined') {
+  //     element.setSinkId(sinkId)
+  //     .then(function() {
+  //       sw_utils.TRACE.blue('Audio output device attached: ' + sinkId + ' to: ' + element.id);
+  //     })
+  //     .catch(function(error) {
+  //       var errorMessage = error;
+  //       if (error.name === 'SecurityError') {
+  //         errorMessage = 'You need to use HTTPS for selecting audio output ' +
+  //         'device: ' + error;
+  //       }
+  //       console.error(errorMessage);
+  //       // Jump back to first output device in the list as it's the default.
+  //       audioOutputSelect.selectedIndex = 0;
+  //     });
+  //   } else {
+  //     console.warn('Browser does not support output device selection.');
+  //   }
+  // }
   //
-  //
-  //
-  this.changeAudioDestination = function() {
-    self = this;
-    var audioDestination = audioOutputSelect.value;
-    attachSinkId(self.remoteVideo, audioDestination);
-  }
+  // this.changeAudioDestination = function() {
+  //   self = this;
+  //   var audioDestination = audioOutputSelect.value;
+  //   attachSinkId(self.remoteVideo, audioDestination);
+  // }
 
 
   //
