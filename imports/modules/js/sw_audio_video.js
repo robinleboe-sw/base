@@ -43,9 +43,9 @@ function audioVideoInit() {
 function sw_LogIn() {
   sw_utils.TRACE.orange('sw_LogIn(): Logging In..');
 
-  easyrtc.enableAudio(document.getElementById("shareAudio").checked);
-  easyrtc.enableVideo(document.getElementById("shareVideo").checked);
-  easyrtc.enableDataChannels(true);
+  // easyrtc.enableAudio(document.getElementById("shareAudio").checked);
+  // easyrtc.enableVideo(document.getElementById("shareVideo").checked);
+  // easyrtc.enableDataChannels(true);
   easyrtc.setRoomOccupantListener( convertListToButtons);
 
   // Connect to signalling server
@@ -164,34 +164,34 @@ function hangup() {
 }
 
 
-function clearConnectList() {
-    var otherClientDiv = document.getElementById('otherClients');
-    while (otherClientDiv.hasChildNodes()) {
-        otherClientDiv.removeChild(otherClientDiv.lastChild);
-    }
-}
-
-/**
- * clear existing button list of users in the room, rebuild it from occupants list,
- * set the onclick function to make the call to the remote user
- */
-function convertListToButtons (roomName, occupants, isPrimary) {
-    clearConnectList();
-    var otherClientDiv = document.getElementById('otherClients');
-    for(var easyrtcid in occupants) {
-        var button = document.createElement('button');
-      button.id = 'callerBtn_' + easyrtcid;
-        button.onclick = function(easyrtcid) {
-            return function() {
-                performCall(easyrtcid);
-            };
-        }(easyrtcid);  //  ?? TODO
-
-        var label = document.createTextNode("Call " + easyrtc.idToName(easyrtcid));
-        button.appendChild(label);
-        otherClientDiv.appendChild(button);
-    }
-}
+// function clearConnectList() {
+//     var otherClientDiv = document.getElementById('otherClients');
+//     while (otherClientDiv.hasChildNodes()) {
+//         otherClientDiv.removeChild(otherClientDiv.lastChild);
+//     }
+// }
+//
+// /**
+//  * clear existing button list of users in the room, rebuild it from occupants list,
+//  * set the onclick function to make the call to the remote user
+//  */
+// function convertListToButtons (roomName, occupants, isPrimary) {
+//     clearConnectList();
+//     var otherClientDiv = document.getElementById('otherClients');
+//     for(var easyrtcid in occupants) {
+//         var button = document.createElement('button');
+//       button.id = 'callerBtn_' + easyrtcid;
+//         button.onclick = function(easyrtcid) {
+//             return function() {
+//                 performCall(easyrtcid);
+//             };
+//         }(easyrtcid);  //  ?? TODO
+//
+//         var label = document.createTextNode("Call " + easyrtc.idToName(easyrtcid));
+//         button.appendChild(label);
+//         otherClientDiv.appendChild(button);
+//     }
+// }
 
 
 //

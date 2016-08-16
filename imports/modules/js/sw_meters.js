@@ -22,12 +22,12 @@ Re-do VU meters to call callback from getAnimationFrame which supplies current v
 //
 export function initMeters() {
 
-  $('#divLocalVU').vumetr();
-  $('#divLocalVU').vumetr('lightMode','night');
-  $('#divLocalVU').vumetr('power', false);
-  $("#divLocalVU").hide();
+  // $('#divLocalVU').vumetr();
+  // $('#divLocalVU').vumetr('lightMode','night');
+  // $('#divLocalVU').vumetr('power', false);
+  // $("#divLocalVU").hide();
 
-  const tempConnectButton = true; // is connect status true?
+  // const tempConnectButton = true; // is connect status true?
 
   $("#divLocalVid").click(function(){
 //    if ( !havelocalVideo() || ($("#localVideo").is(":visible") == true ) ) {

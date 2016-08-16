@@ -3,23 +3,45 @@
  */
 
 import React from 'react';
-import '../../../modules/js/sw_meters'
 import { attachSinkId } from '../../../modules/attach-sink-id'
+import '../../../modules/js/vumetr.js'
 
 const remoteVideoStyle = {
-  display: "block"
+  display: "block",
+  border: "solid thin black"
 }
 
 const remoteVideoVUStyle = {
-  // float: "left",
-  // height: "100%",
-  // width: "100%",
-  display: "block",
+  display: "block"
 }
 
 export class RemoteVideo extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      videoShow: true
+    };
+    this.handleVideoToggle = this.handleVideoToggle.bind(this);
+
+  }
+
+  initMeter() {
+    // get ref
+    const vu = this.divRemoteVU;
+    // instantiate meter using jQuery TODO: refactor to remove jQuery dependency
+    $(vu).vumetr();
+    // initial settings
+    $(vu).vumetr('lightMode', 'night');
+    $(vu).vumetr('power', false);
+  }
+
+  handleVideoToggle() {
+    this.setState({videoShow: !this.state.videoShow})
+  }
+
+  componentDidMount() {
+    this.initMeter()
   }
 
   render() {
@@ -30,7 +52,7 @@ export class RemoteVideo extends React.Component {
         <p>{settings.profile.name.first} {settings.profile.name.last}</p>
         <video
           autoPlay="autoplay"
-          ref={function(video) {
+          ref={(video) => {
               if(video != null) {
                 var sinkId = settings.settings.selectedTalkbackDestination;
                 attachSinkId(video, sinkId);
@@ -38,11 +60,18 @@ export class RemoteVideo extends React.Component {
             }
           }
           id="remoteVideo"
-          className="easyrtcMirror"
+          className={this.state.videoShow ? 'hidden easyrtcMirror' : 'easyrtcMirror'}
           muted="muted"
           style={remoteVideoStyle}
+          onClick={this.handleVideoToggle}
         />
-        <div id="divRemoteVU" className="vumetr" style={remoteVideoVUStyle}></div>
+        <div
+          id="divRemoteVU"
+          ref={(vu) => this.divRemoteVU = vu}
+          className={this.state.videoShow ? 'vumetr' : 'hidden vumetr'}
+          style={remoteVideoVUStyle}
+          onClick={this.handleVideoToggle}
+        ></div>
       </div>
     )
   }
