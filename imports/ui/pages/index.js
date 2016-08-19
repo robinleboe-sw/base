@@ -3,7 +3,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Button } from 'react-bootstrap';
 import { ReactiveVar } from 'meteor/reactive-var'
 
-
 export class Index extends React.Component {
   renderLogin(hasUser) {
     if(!!hasUser) {
