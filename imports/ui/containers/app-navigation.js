@@ -4,9 +4,11 @@
  * @props currentUser added to AppNavigation
  */
 
+// import packages
 import { Meteor } from 'meteor/meteor'
 import { composeWithTracker } from 'react-komposer'
-// import AppNavigation component that will receive currentUser data
+
+// import component that will receive currentUser data
 import { AppNavigation } from '../components/app-navigation'
 
 const composer = (props, onData) => {

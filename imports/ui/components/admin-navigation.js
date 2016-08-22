@@ -1,18 +1,25 @@
-import React from 'react';
-import { browserHistory } from 'react-router';
-import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap';
-import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { Meteor } from 'meteor/meteor';
+/**
+ * AdminNavigation component renders 'admin-only' navigation for users who have been added to the admin role.
+ */
 
-const handleLogout = () => Meteor.logout(() => browserHistory.push('/login'));
+// import from packages
+import { Meteor } from 'meteor/meteor'
+import React from 'react'
+import { browserHistory } from 'react-router'
+import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
+import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 
-const userName = () => {
-  const user = Meteor.user();
-  const name = user && user.profile ? user.profile.name : '';
-  return user ? `${name.first} ${name.last}` : '';
-};
+// send users to the login screen on logout
+const handleLogout = () => Meteor.logout(() => browserHistory.push('/login'))
 
-export const AdminNavigation = () => (
+// concatenate user name for display
+const userName = (props) => {
+  const user = props.currentUser
+  const name = user && user.profile ? user.profile.name : ''
+  return user ? `${name.first} ${name.last}` : ''
+}
+
+export const AdminNavigation = (props) => (
   <div>
     <Nav>
       <IndexLinkContainer to="/">
@@ -23,9 +30,13 @@ export const AdminNavigation = () => (
       </LinkContainer>
     </Nav>
     <Nav pullRight>
-      <NavDropdown eventKey={ 3 } title={ userName() } id="basic-nav-dropdown">
+      <NavDropdown eventKey={ 3 } title={ userName(props) } id="basic-nav-dropdown">
         <MenuItem eventKey={ 3.1 } onClick={ handleLogout }>Logout</MenuItem>
       </NavDropdown>
     </Nav>
   </div>
-);
+)
+
+AdminNavigation.propTypes = {
+  currentUser: React.PropTypes.object
+}

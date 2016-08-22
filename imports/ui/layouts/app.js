@@ -3,21 +3,25 @@
  * children are rendered into a Bootstrap grid courtesy of React Bootstrap.
  */
 
+// import from packages
 import React from 'react'
 import { Grid } from 'react-bootstrap'
-// import HOC for AppNavigation
+
+// import container
 import AppNavigation from '../containers/app-navigation'
 
 export class App extends React.Component {
   constructor(props) {
-    // call super to use 'this.'
+    // call super to use 'this'
     super(props)
   }
 
   render() {
     return(
       <div>
+        {/* render navigation */}
         <AppNavigation />
+        {/* render child components to document */}
         <Grid>
           { this.props.children }
         </Grid>

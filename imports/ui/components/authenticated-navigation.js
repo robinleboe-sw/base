@@ -1,18 +1,23 @@
-import React from 'react';
-import { browserHistory } from 'react-router';
-import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap';
-import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { Meteor } from 'meteor/meteor';
+/**
+ * AuthenticatedNavigation component renders navigation for users who have been authenticated.
+ */
 
-const handleLogout = () => Meteor.logout(() => browserHistory.push('/login'));
+// import from packages
+import { Meteor } from 'meteor/meteor'
+import React from 'react'
+import { browserHistory } from 'react-router'
+import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
+import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 
-const userName = () => {
-  const user = Meteor.user();
-  const name = user && user.profile ? user.profile.name : '';
-  return user ? `${name.first} ${name.last}` : '';
-};
+const handleLogout = () => Meteor.logout(() => browserHistory.push('/login'))
 
-export const AuthenticatedNavigation = () => (
+const userName = (props) => {
+  const user =props.currentUser
+  const name = user && user.profile ? user.profile.name : ''
+  return user ? `${name.first} ${name.last}` : ''
+}
+
+export const AuthenticatedNavigation = (props) => (
   <div>
     <Nav>
       <IndexLinkContainer to="/">
@@ -26,9 +31,9 @@ export const AuthenticatedNavigation = () => (
       </LinkContainer>
     </Nav>
     <Nav pullRight>
-      <NavDropdown eventKey={ 4 } title={ userName() } id="basic-nav-dropdown">
+      <NavDropdown eventKey={ 4 } title={ userName(props) } id="basic-nav-dropdown">
         <MenuItem eventKey={ 4.1 } onClick={ handleLogout }>Logout</MenuItem>
       </NavDropdown>
     </Nav>
   </div>
-);
+)

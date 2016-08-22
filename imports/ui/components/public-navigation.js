@@ -1,6 +1,11 @@
-import React from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Nav, NavItem } from 'react-bootstrap';
+/**
+ * PublicNavigation component renders navigation for users who have not been authenticated.
+ */
+
+// import from packages
+import React from 'react'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Nav, NavItem } from 'react-bootstrap'
 
 export const PublicNavigation = () => (
   <Nav pullRight>
@@ -11,4 +16,4 @@ export const PublicNavigation = () => (
       <NavItem eventKey={ 2 } href="/login">Log In</NavItem>
     </LinkContainer>
   </Nav>
-);
+)

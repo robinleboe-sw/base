@@ -1,41 +1,38 @@
 /**
- * client routing for Sessionwire Studio app
+ * Client routing for Sessionwire Studio app
+ *
+ * TODO: add admin routes and authorization
  */
 
-import React from 'react';
-import { render } from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { Meteor } from 'meteor/meteor';
-import { App } from '../../ui/layouts/app';
-import { Documents } from '../../ui/pages/documents';
-import { Lounge } from '../../ui/pages/lounge';
-import Index from '../../ui/containers/app-index';
-import { Login } from '../../ui/pages/login';
-import { NotFound } from '../../ui/pages/not-found';
-import { RecoverPassword } from '../../ui/pages/recover-password';
-import { ResetPassword } from '../../ui/pages/reset-password';
-import { Signup } from '../../ui/pages/signup';
+//import from packages
+import { Meteor } from 'meteor/meteor'
+import React from 'react'
+import { render } from 'react-dom'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
+//import containers
+import Index from '../../ui/containers/app-index'
+
+//import components
+import { App } from '../../ui/layouts/app'
+import { Documents } from '../../ui/pages/documents'
+import { Login } from '../../ui/pages/login'
+import { Lounge } from '../../ui/pages/lounge'
+import { NotFound } from '../../ui/pages/not-found'
+import { RecoverPassword } from '../../ui/pages/recover-password'
+import { ResetPassword } from '../../ui/pages/reset-password'
+import { Signup } from '../../ui/pages/signup'
+
+
+// check for login status and send to login instead of requested route if user is not authenticated
 const requireAuth = (nextState, replace) => {
   if (!Meteor.loggingIn() && !Meteor.userId()) {
     replace({
       pathname: '/login',
       state: { nextPathname: nextState.location.pathname },
-    });
+    })
   }
-};
-
-const requireAdminAuth = (nextState, replace) => {
-  console.log("yeah baby!")
-  // let loggedInUser = Meteor.user();
-  // if (!Meteor.loggingIn() && !Meteor.userId() && !Roles.userIsInRole(loggedInUser, 'admin')) {
-  //   console.log('not admin');
-  //   replace({
-  //     pathname: '/login',
-  //     state: { nextPathname: nextState.location.pathname },
-  //   });
-  // }
-};
+}
 
 Meteor.startup(() => {
   render(
@@ -48,12 +45,9 @@ Meteor.startup(() => {
         <Route name="recover-password" path="/recover-password" component={ RecoverPassword } />
         <Route name="reset-password" path="/reset-password/:token" component={ ResetPassword } />
         <Route name="signup" path="/signup" component={ Signup } />
-        {/*<Route name="admin" path="/admin" component={ Admin } onEnter={ requireAdminAuth } >*/}
-          {/*<Route name="main" path="admin" component={ Main } />*/}
-        {/*</Route>*/}
         <Route path="*" component={ NotFound } />
       </Route>
     </Router>,
     document.getElementById('react-root')
-  );
-});
+  )
+})
