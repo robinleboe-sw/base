@@ -5,7 +5,7 @@
 import React from 'react';
 import { Modal, Button, Form, FormGroup, Checkbox, FormControl, ControlLabel } from 'react-bootstrap';
 import { getInputValue } from '/imports/modules/get-input-value';
-import { updateSettings } from '../../../api/users/methods';
+import { updateSettings } from '../../../../api/users/methods';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { objToStrMap } from '/imports/modules/object-map-conversion.js'
 

@@ -1,65 +1,67 @@
 /**
- * A/V chat between authenticated Sessionwire Studio users
+ * Route destination for Avatar A/V chat page
  */
 
-import React from 'react';
-import { Button, ButtonToolbar, Glyphicon, Alert, Col, Row } from 'react-bootstrap';
+// import from packages
+import React from 'react'
+import { Button, ButtonToolbar, Glyphicon, Alert, Col, Row } from 'react-bootstrap'
 
 // import modal windows
-import { ConnectModal } from '/imports/ui/components/avatar/connect-modal'
+import { ConnectModal } from '/imports/ui/components/avatar/modals/connect-modal'
 import SettingsModal from '/imports/ui/containers/settings-data' // default export
-import { HelpModal } from '/imports/ui/components/avatar/help-modal'
+import { HelpModal } from '/imports/ui/components/avatar/modals/help-modal'
 
-// import HOC data container
-import AvatarView from '/imports/ui/containers/avatar'
+// import container
+import AvatarContainer from '/imports/ui/containers/avatar' // default export
 
 export class Lounge extends React.Component {
+
   constructor(props) {
-    super(props);
+    super(props)
     // set visibility state for modals and alerts
     this.state = {
       helpShow: false,
       settingsShow: false,
       connectShow: false,
       alertVisible: true
-    };
+    }
     // pre-bind methods to instance
-    this.helpShow = this.helpShow.bind(this);
-    this.helpClose = this.helpClose.bind(this);
-    this.settingsShow = this.settingsShow.bind(this);
-    this.settingsClose = this.settingsClose.bind(this);
-    this.connectShow = this.connectShow.bind(this);
-    this.connectClose = this.connectClose.bind(this);
-    this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
+    this.helpShow = this.helpShow.bind(this)
+    this.helpClose = this.helpClose.bind(this)
+    this.settingsShow = this.settingsShow.bind(this)
+    this.settingsClose = this.settingsClose.bind(this)
+    this.connectShow = this.connectShow.bind(this)
+    this.connectClose = this.connectClose.bind(this)
+    this.handleAlertDismiss = this.handleAlertDismiss.bind(this)
   }
 
   // class methods
   helpShow() {
-    this.setState({ helpShow: true });
+    this.setState({ helpShow: true })
   }
 
   helpClose() {
-    this.setState({ helpShow: false });
+    this.setState({ helpShow: false })
   }
 
   settingsShow() {
-    this.setState({ settingsShow: true });
+    this.setState({ settingsShow: true })
   }
 
   settingsClose() {
-    this.setState({ settingsShow: false });
+    this.setState({ settingsShow: false })
   }
 
   connectShow() {
-    this.setState({ connectShow: true });
+    this.setState({ connectShow: true })
   }
 
   connectClose() {
-    this.setState({ connectShow: false });
+    this.setState({ connectShow: false })
   }
 
   handleAlertDismiss() {
-    this.setState({ alertVisible: false });
+    this.setState({ alertVisible: false })
   }
 
   render() {
@@ -86,7 +88,7 @@ export class Lounge extends React.Component {
         <Col xs={12}>
           <ButtonToolbar className="pull-left">
             <Button bsStyle="danger" onClick={this.connectShow}>
-              AVATAR Talkback  &nbsp;<Glyphicon glyph="earphone" />
+              AVATAR Talkback <Glyphicon glyph="earphone" />
             </Button>
           </ButtonToolbar>
           <ButtonToolbar className="pull-right">
@@ -101,7 +103,7 @@ export class Lounge extends React.Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <AvatarView/>
+            <AvatarContainer/>
           </Col>
         </Row>
         <HelpModal show={this.state.helpShow} onHide={this.helpClose} />
@@ -110,4 +112,4 @@ export class Lounge extends React.Component {
       </div>
     )
   }
-};
+}

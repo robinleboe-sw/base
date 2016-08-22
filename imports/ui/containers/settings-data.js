@@ -9,7 +9,7 @@ import { composeWithTracker } from 'react-komposer';
 import { Settings } from '../../api/users/settings.js';
 
 // import components
-import { SettingsModal } from '../components/avatar/settings-modal';
+import { SettingsModal } from '../components/avatar/modals/settings-modal';
 import { Loading } from '../components/loading.js';
 
 const composer = (params, onData) => {

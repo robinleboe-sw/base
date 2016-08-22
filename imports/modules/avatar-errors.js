@@ -1,5 +1,5 @@
 /**
- * Error functions for Avatar WebRTC
+ * Error functions for AvatarContainer WebRTC
  */
 
 export function handle_iMS_Error() {

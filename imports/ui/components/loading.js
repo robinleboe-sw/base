@@ -1,4 +1,8 @@
-import React from 'react';
+/**
+ * Component provides animation while loading
+ */
+
+import React from 'react'
 
 export const Loading = () => (
   <svg
@@ -25,4 +29,4 @@ export const Loading = () => (
       C22.32,8.481,24.301,9.057,26.013,10.047z">
     </path>
   </svg>
-);
+)

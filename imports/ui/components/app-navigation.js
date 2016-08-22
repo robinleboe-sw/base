@@ -29,22 +29,21 @@ export class AppNavigation extends React.Component {
 
   render() {
 
-    return <Row className="border-bottom white-bg">
-      <Navbar staticTop fluid>
-      <Navbar.Header>
-        <Navbar.Brand>
-          <Link to="/"><img src="/app/logo-nav.png" /> <span className="sw-nav-logo">sessionwire.studio</span></Link>
-        </Navbar.Brand>
-        <Navbar.Toggle />
-      </Navbar.Header>
-      <Navbar.Collapse>
-          {/* conditionally render navigation components */}
-          { this.renderNavigation(this.props.currentUser) }
-      </Navbar.Collapse>
-    </Navbar></Row>
+    return (
+      <Row className="border-bottom white-bg">
+        <Navbar staticTop fluid>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to="/"><img src="/app/logo-nav.png" /> <span className="sw-nav-logo">sessionwire.studio</span></Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+              {/* conditionally render navigation components */}
+              { this.renderNavigation(this.props.currentUser) }
+          </Navbar.Collapse>
+        </Navbar>
+      </Row>
+    )
   }
-}
-
-AppNavigation.propTypes = {
-  currentUser: React.PropTypes.object,
 }
