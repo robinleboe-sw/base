@@ -29,12 +29,12 @@ export class AppNavigation extends React.Component {
         <Navbar.Toggle />
       </Navbar.Header>
       <Navbar.Collapse>
-          { this.renderNavigation(this.props.hasUser) }
+          { this.renderNavigation(this.props.currentUser) }
       </Navbar.Collapse>
     </Navbar></Row>;
   }
 }
 
 AppNavigation.propTypes = {
-  hasUser: React.PropTypes.object,
+  currentUser: React.PropTypes.object,
 };

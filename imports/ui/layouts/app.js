@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { Grid } from 'react-bootstrap'
+// import HOC for AppNavigation
 import AppNavigation from '../containers/app-navigation'
 
 export class App extends React.Component {

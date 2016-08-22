@@ -22,7 +22,7 @@ export class Index extends React.Component {
         <h2>Sessionwire Studio - Live Recording on the Web</h2>
         <p>Login for the new collaboration experience.</p>
         <p>
-          { this.renderLogin(this.props.hasUser) }
+          { this.renderLogin(this.props.currentUser) }
         </p>
         <p style={ {fontSize: '16px', color: '#aaa'} }>Currently at v0.1.0-alpha</p>
       </div>
