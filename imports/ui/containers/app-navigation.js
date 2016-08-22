@@ -16,5 +16,5 @@ const composer = (props, onData) => {
   onData(null, { currentUser: Meteor.user() })
 }
 
-// make reactive currentUser props available to AppNavigation component
+// make currentUser available as reactive props to AppNavigation component
 export default composeWithTracker(composer)(AppNavigation)
