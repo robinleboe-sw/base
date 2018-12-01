@@ -1,4 +1,4 @@
-# Sessionwire Studio Base Application
+# Meteor Base Application
 
 <table>
   <tbody>
